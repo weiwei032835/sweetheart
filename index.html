@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
     <link rel="shortcut icon" href="#" />
     <title>會員登錄</title>
-    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet" crossorigin="anonymous">
     <link href="css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
@@ -42,15 +42,16 @@
 
                 <!-- input 開始 -->
                 <p>
-                    <input class="inputEm" type="email" name="myEmail" placeholder="mike@email.com" class="required" required>
+                    <input class="inputEm" type="email" name="myEmail" placeholder="mike@email.com" class="required"
+                        required>
                     <span>信箱</span>
                 </p>
                 <!-- input 結束 -->
 
                 <!-- input 開始 -->
                 <p>
-                    <input class="inputPw" type="password" name="myInputPw" placeholder="預設0000" data-toggle-pw="false" minlength="4"
-                        required>
+                    <input class="inputPw" type="password" name="myInputPw" placeholder="預設0000" data-toggle-pw="false"
+                        minlength="4" required>
                     <span>密碼</span>
                     <i class="btnShowPw fas"></i>
                 </p>
@@ -76,84 +77,51 @@
 
 
     <script>
-
-        //登入區 表情切換 驗證 ========================
         $(function () {
-
-            //顯示頭照
+            // 1. 頭像顯示 & 密碼眼睛切換
             function fnShowUser(argTa) {
                 $("p.emUser, p.pwUser").hide();
                 $(`.${argTa}`).show();
             }
 
-            //初始
             fnShowUser("emUser");
 
-            //Email focus
             $(".inputEm").on("focus", function () {
                 fnShowUser("emUser");
-            });
-
-            //Email
-            $(".inputEm").on("input", function () {
-
+            }).on("input", function () {
                 var total = $(this).val().length;
-
-                //按眼睛開關需要指定圖片
-                if (total <= 2) {
-                    $("p.emUser").attr("style", "--bgPosX:0");
-                } else if (total <= 4) {
-                    $("p.emUser").attr("style", "--bgPosX:600");
-                } else if (total <= 5) {
-                    $("p.emUser").attr("style", "--bgPosX:500");
-                } else if (total <= 8) {
-                    $("p.emUser").attr("style", "--bgPosX:400");
-                } else if (total <= 10) {
-                    $("p.emUser").attr("style", "--bgPosX:300");
-                } else if (total <= 12) {
-                    $("p.emUser").attr("style", "--bgPosX:200");
-                } else if (total <= 14) {
-                    $("p.emUser").attr("style", "--bgPosX:100");
-                }
-
+                var bgPosX = total <= 2 ? "0" :
+                    total <= 4 ? "600" :
+                        total <= 5 ? "500" :
+                            total <= 8 ? "400" :
+                                total <= 10 ? "300" :
+                                    total <= 12 ? "200" : "100";
+                $("p.emUser").css("--bgPosX", bgPosX);
             });
 
-            //密碼欄
             let $inputPw = $(".inputPw");
+            $inputPw.focus(() => fnShowUser("pwUser"))
+                .blur(() => fnShowUser("emUser"));
 
-
-            $inputPw
-                .focus(function () {
-                    fnShowUser("pwUser");
-                })
-                .blur(function () {
-                    fnShowUser("emUser");
-                });
-
-            //按鈕 眼睛
             $(".btnShowPw").on("click", function () {
                 fnShowUser("pwUser");
-
-                //隱藏密碼
-                if ($inputPw.data("toggle-pw") === true) {
-                    $(this).addClass("active");
-                    $inputPw.attr("type", "password").data("toggle-pw", false);
-                    $(".pwUser").removeClass("showEye");
-                } else { //顯示密碼 
-                    $(this).removeClass("active");
-                    $inputPw.attr("type", "text").data("toggle-pw", true);
-                    $(".pwUser").addClass("showEye");
-                }
+                let isPwVisible = $inputPw.data("toggle-pw");
+                $(this).toggleClass("active", !isPwVisible);
+                $inputPw.attr("type", isPwVisible ? "password" : "text")
+                    .data("toggle-pw", !isPwVisible);
+                $(".pwUser").toggleClass("showEye", !isPwVisible);
             });
 
-            $("#myForm").validate();
-
-        });
-
-                //送後端驗證 驗證 ========================
-                $(function () {
-            // 表單預設提交處理程序
-            $.validator.setDefaults({
+            // 2. 表單驗證 & AJAX 提交
+            $("#myForm").validate({
+                rules: {
+                    myEmail: { required: true, email: true },
+                    myName: { required: true }
+                },
+                messages: {
+                    myEmail: "請輸入有效的 Email",
+                    myName: "請輸入姓名"
+                },
                 submitHandler: function () {
                     var formData = {
                         email: $("input[name='myEmail']").val(),
@@ -161,24 +129,22 @@
                     };
 
                     $.ajax({
-                        url: 'https://ml-predict-api-406220573568.asia-east1.run.app/api/user/login', // API 端點
+                        url: 'https://ml-predict-api-406220573568.asia-east1.run.app/api/user/login',
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify(formData),
                         success: function (response) {
+                            console.log("API 回應:", response);
                             alert("資料已成功送出");
-                            window.location.href = "heart.html"; // 成功後跳轉到 heart.html
+                            window.location.href = "heart.html";
                         },
                         error: function (error) {
+                            console.error("Error:", error.responseText || error.statusText);
                             alert("資料送出失敗");
-                            console.error('Error:', error);
                         }
                     });
                 }
             });
-
-            // 表單驗證和提交
-            $("#myForm").validate();
         });
 
 
