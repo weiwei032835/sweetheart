@@ -123,35 +123,32 @@
                         myEmail: "請輸入有效的 Email",
                         myName: "請輸入姓名"
                     },
-                    submitHandler: function (form, event) {
-                        event.preventDefault(); // 防止表單的預設提交行為
-
+                    submitHandler: function () {
                         let formData = {
                             email: $("input[name='myEmail']").val(),
                             name: $("input[name='myName']").val()
                         };
 
-                        fetch('https://ml-predict-api-406220573568.asia-east1.run.app/api/user/profile', {
+                        fetch('https://ml-predict-api-406220573568.asia-east1.run.app/api/user/login', {
                             method: 'POST',
                             headers: {
-                                'Content-Type': 'application/json',
-                                'Accept': 'application/json' // 確保 API 回應是 JSON
+                                'Content-Type': 'application/json'
                             },
                             body: JSON.stringify(formData)
                         })
                             .then(response => {
                                 if (!response.ok) {
-                                    return response.json().then(err => { throw new Error(err.message || "發生錯誤"); });
+                                    return response.text().then(text => { throw new Error(text); });
                                 }
                                 return response.json();
                             })
                             .then(data => {
                                 console.log("API 回應:", data);
-                                alert("資料已成功送出！");
+                                alert("資料已成功送出");
                                 window.location.href = "heart.html"; // 成功後跳轉
                             })
                             .catch(error => {
-                                console.error("API 錯誤:", error);
+                                console.error("Error:", error);
                                 alert("資料送出失敗：" + error.message);
                             });
                     }
