@@ -1,0 +1,483 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="#" />
+    <title>心臟病檢測</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div id="app" class="wrapper_box">
+        <!--topbar 開始-->
+        <div class="topbar_box">
+            <div class="topbar">
+                <h3><i class="bi bi-heart-pulse-fill"></i>&thinsp; <span>心肝檢測</span></h3>
+                <ol>
+                    <li>
+                        <span class="name">王大明</span>
+                    </li>
+                    <li><a href="#" title="登出" class="member"><i class="bi bi-person-circle"></i></a></li>
+                </ol>
+            </div>
+        </div>
+        <!--topbar 結束-->
+
+        <!--wrapper 開始-->
+        <div class="wrapper">
+            <!-- menu -->
+            <div class="menu btn-group">
+                <a href="index_heart.html" class="btn current">心臟病檢測</a>
+                <a href="index_history.html" class="btn">健康歷史追蹤</a>
+            </div>
+
+            <!-- area -->
+            <div class="area table">
+                <h4>輸入參數</h4>
+                <!-- 表單 開始 -->
+                <form @submit.prevent="calculate">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="name" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="name" v-model="name" required>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="sex" class="form-label">性別 sex</label>
+                            <select class="form-select" id="sex" v-model="sex" required>
+                                <option value="" disabled selected>選擇性別</option>
+                                <option value="0">女</option>
+                                <option value="1">男</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="age" class="form-label">年齡 age</label>
+                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80"
+                                placeholder="範圍 20-80" required>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="trestbps" class="form-label">血壓 trestbps</label>
+                            <input type="number" class="form-control" id="trestbps" v-model="trestbps" required
+                                placeholder="範圍 80-250" min="80" max="250">
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="fbs" class="form-label">血糖 fbs</label>
+                            <select class="form-select" id="fbs" v-model="fbs" required>
+                                <option value="" disabled selected>選擇血糖類型</option>
+                                <option value="0">空腹血糖 <= 120 mg/dl</option>
+                                <option value="1">空腹血糖 > 120 mg/dl</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="chol" class="form-label">膽固醇 chol</label>
+                            <input type="number" class="form-control" id="chol" v-model="chol" min="100" max="600"
+                                placeholder="範圍 100-600" required>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="thal" class="form-label">地中海型貧血 thal</label>
+                            <select class="form-select" id="thal" v-model="thal" required>
+                                <option value="" disabled selected>選擇 是否</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="cp" class="form-label">胸痛類型 cp</label>
+                            <select class="form-select" id="cp" v-model="cp" required>
+                                <option value="" disabled selected>選擇胸痛類型</option>
+                                <option value="0">典型心絞痛</option>
+                                <option value="1">非典型心絞痛</option>
+                                <option value="2">非心絞痛</option>
+                                <option value="3">無症況</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="exang" class="form-label">運動誘發心絞痛 exang </label>
+                            <select class="form-select" id="exang" v-model="exang" required>
+                                <option value="" disabled selected>選擇是否</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="thalach" class="form-label">最大心率 thalach</label>
+                            <input type="number" class="form-control" id="thalach" v-model="thalach"
+                                placeholder="範圍 50-250" min="50" max="250" required>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="restecg" class="form-label">靜息心電圖 restecg</label>
+                            <select class="form-select" id="restecg" v-model="restecg" required>
+                                <option value="" disabled selected>選擇靜息心電圖</option>
+                                <option value="0">低</option>
+                                <option value="1">中</option>
+                                <option value="2">高</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="oldpeak" class="form-label">ST 段壓低 oldpeak</label>
+                            <select class="form-select" id="oldpeak" v-model="oldpeak" required>
+                                <option value="" disabled selected>選擇 ST 段壓低</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="slope" class="form-label">ST 段的斜率 slope</label>
+                            <select class="form-select" id="slope" v-model="slope" required>
+                                <option value="" disabled selected>選擇 ST 段的斜率</option>
+                                <option value="0">低</option>
+                                <option value="1">中</option>
+                                <option value="2">高</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="thal" class="form-label">冠狀動脈(血管)數量 ca</label>
+
+                            <select class="form-select" id="ca" v-model="ca" required>
+                                <option value="" disabled selected>選擇 血管數量</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
+                    <button type="button" class="btn btn-secondary my-4  me-3" @click="resetForm">重置</button>
+                    <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
+                </form>
+                <!-- 表單 結束 -->
+            </div>
+            <!--v-if="result" -->
+            <div class="area area_results">
+
+                <!--info 開始-->
+                <div class="info">
+                    <div class="report title">
+                        <h3>健康報告 - </h3>
+                        <h3 class="name">{{ name }}</h3>
+                    </div>
+                </div>
+                <!--info 結束-->
+
+                <!--cp_card_1 開始-->
+                <div class="cp_card_1">
+                    <!--col_1 開始-->
+                    <div class="col_1">
+                        <p class="pic">
+                            <img :src="target === 0 ? 'images/00.png' : 'images/01.png'">
+                        </p>
+                        <p>心臟病評斷: <span v-if="target === 0">低風險族群</span><span v-else>高風險族群</span></p>
+
+                        <div class="content">
+                            <p class="desc" v-if="target === 0">
+                                請繼續維持良好生活習慣，定期健康檢查。<br>
+                                身體健康就是您最大的財富!
+                            </p>
+                            <p class="desc" v-else>
+                                建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。<br>戒菸與限制每日飲酒量，以利降低心臟相關疾病風險。
+                            </p>
+                        </div>
+                    </div>
+                    <!--col_1 結束-->
+
+                    <!--col_2 開始-->
+                    <div class="col_2">
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': cp !== '3', 'gray': cp === '3'}"><i
+                                        class="bi bi-diamond-half"></i>胸痛類型</h4>
+                                <h4 class="value" :class="{'red': cp !== '3', 'gray': cp === '3'}">
+                                    <span v-if="cp === '0'">典型心絞痛</span>
+                                    <span v-else-if="cp === '1'">非典型心絞痛</span>
+                                    <span v-else-if="cp === '2'">非心絞痛</span>
+                                    <span v-else>無症況</span>
+                                </h4>
+                                <a v-if="cp !== '3'" href="images/pic01.png" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content" v-if="cp !== '3'">
+                                <p class="desc">
+                                    關心自己的血壓、血脂及血糖等數據變化。<br>發生胸痛時，先坐下並觀察疼痛位置、時間長度、實際感受，若3分鐘後仍然不舒服，應盡速就醫，以避免誤判而失去黃金治療時間。
+                                </p>
+                                <p class="link"></p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    <i class="bi bi-diamond-half"></i> 血壓
+                                </h4>
+                                <h4 class="value" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    {{ trestbps }}
+                                </h4>
+                                <p class="mark" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    <span v-if="trestbps < 120">血壓正常：< 120/80 mmHg</span>
+                                            <span v-else-if="trestbps >= 120 && trestbps <= 129">高血壓前期：120/80~129/89
+                                                mmHg</span>
+                                            <span v-else-if="trestbps >= 130 && trestbps <= 139">高血壓：130/80 ~139/89
+                                                mmHg</span>
+                                            <span v-else>高血壓危險期：>=140/90 mmHg</span>
+                                </p>
+                                <a v-if="trestbps >= 120" href="images/pic02.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <p class="desc" v-if="trestbps < 120">
+                                    狀態良好，請繼續保持。
+                                </p>
+                                <div v-else-if="trestbps >= 120 && trestbps <= 129">
+                                    <p class="desc"><strong>建議：</strong> 血壓偏高，請改善生活型態，定期監測血壓數值。</p>
+                                    <ul>
+                                        <li><strong>飲食調整：</strong> 控制鹽分攝取，選擇低鹽、低脂、高纖維食物。</li>
+                                        <li><strong>規律運動：</strong> 建議每週至少 150 分鐘中等強度運動，例如快走或騎腳踏車。</li>
+                                        <li><strong>體重管理：</strong> 若有過重情況，適量減重有助於降低血壓。</li>
+                                        <li><strong>壓力管理：</strong> 保持心情放鬆，避免長期處於壓力狀態。</li>
+                                    </ul>
+                                </div>
+                                <div v-else-if="trestbps >= 130 && trestbps <= 139">
+                                    <p class="desc"><strong>建議：</strong> 血壓已達高血壓標準，需積極控制並定期監測。</p>
+                                    <ul>
+                                        <li><strong>健康飲食：</strong> 減少攝取加工食品，增加蔬菜、水果及富含鉀的食物。</li>
+                                        <li><strong>運動習慣：</strong> 每天至少 30 分鐘的有氧運動，如健走、游泳。</li>
+                                        <li><strong>限酒戒菸：</strong> 避免過量飲酒，戒菸可顯著降低心血管風險。</li>
+                                        <li><strong>定期測量：</strong> 每日監測血壓數值，避免突然升高。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"><strong>建議：</strong> 血壓過高，請立即就醫追蹤，以降低心血管疾病風險。</p>
+                                    <ul>
+                                        <li><strong>緊急就醫：</strong> 若出現頭暈、胸悶等症狀，應立即尋求醫療協助。</li>
+                                        <li><strong>藥物治療：</strong> 依照醫師指示服藥，不可自行停藥。</li>
+                                        <li><strong>低鹽飲食：</strong> 避免高鈉食物，如泡麵、醃漬食品、加工肉品。</li>
+                                        <li><strong>規律作息：</strong> 充足睡眠有助於穩定血壓，避免熬夜與過度勞累。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': chol >= 200, 'gray': chol < 200}"><i
+                                        class="bi bi-diamond-half"></i>膽固醇</h4>
+                                <h4 class="value" :class="{'red': chol >= 200, 'gray': chol < 200}">{{ chol }}</h4>
+                                <p class="mark" :class="{'red': chol >= 200, 'gray': chol < 200}">
+                                    <span v-if="chol < 200">膽固醇正常：< 200 mg/dL</span>
+                                            <span v-else-if="chol >= 200 && chol <= 239">膽固醇偏高：200-239 mg/dL</span>
+                                            <span v-else>膽固醇過高：≥ 240 mg/dL</span>
+                                </p>
+                                <a v-if="chol >= 200" href="images/pic03.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="chol < 200">
+                                    <p class="desc">膽固醇正常，請繼續保持健康生活型態。</p>
+                                </div>
+                                <div v-else-if="chol >= 200 && chol <= 239">
+                                    <p class="desc"><strong>建議：</strong> 膽固醇偏高，請調整飲食型態，保持規律運動。</p>
+                                    <ul>
+                                        <li>高纖食物（燕麥、糙米、豆類）可降低壞膽固醇。</li>
+                                        <li>健康油脂（橄欖油、深海魚、堅果）可提高好膽固醇。</li>
+                                        <li>蔬果（富含抗氧化物，如蘋果、柑橘、綠葉蔬菜）。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"><strong>建議：</strong> 膽固醇過高，請積極調整飲食習慣，增加運動量，諮詢專業醫師建議控制。</p>
+                                    <ul>
+                                        <li>每週150分鐘中等強度運動有助於降低壞膽固醇。</li>
+                                        <li>重量訓練搭配有氧運動效果更佳。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': fbs === '1', 'gray': fbs === '0'}"><i
+                                        class="bi bi-diamond-half"></i>血糖</h4>
+                                <h4 class="value" :class="{'red': fbs === '1', 'gray': fbs === '0'}">{{ fbs === '0' ?
+                                    '空腹血糖 <= 120 mg/dl' : '空腹血糖 > 120 mg/dl' }}</h4>
+                                        <p class="mark" :class="{'red': fbs === '1', 'gray': fbs === '0'}">
+                                            <span v-if="fbs === '0'">血糖正常：<= 120 mg/dl</span>
+                                                    <span v-else>糖尿病前期：> 120 mg/dl</span>
+                                        </p>
+                                        <a v-if="fbs === '1'" href="images/pic04.jpg" target="_blank">衛教圖1 <i
+                                                class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="fbs === '0'">
+                                    <p class="desc">血糖正常，請繼續維持健康生活型態。</p>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"><strong>建議：</strong> 血糖偏高，建議改善飲食型態，定期量測追蹤。</p>
+                                    <ul>
+                                        <li><strong>控制飲食：</strong> 避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
+                                        <li><strong>規律運動：</strong> 適當運動有助於穩定血糖，提高胰島素敏感性。</li>
+                                        <li><strong>定期監測血糖：</strong> 養成監測血糖的習慣，及早發現異常。</li>
+                                        <li><strong>按時服藥：</strong> 若醫生開立藥物，請依指示服用，避免血糖失控。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <i class="bi bi-diamond-half"></i>最大心率
+                                </h4>
+                                <h4 class="value" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <span v-if="thalach > 220">高心率（> 220）</span>
+                                    <span v-else-if="thalach >= 60 && thalach <= 100">正常心率（60-100）</span>
+                                    <span v-else>低心率（< 60）</span>
+                                </h4>
+                                <p class="mark" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <span v-if="thalach > 220">心率過快，可能是運動中或心臟負擔過重，建議進一步就醫追蹤。</span>
+                                    <span v-else-if="thalach >= 60 && thalach <= 100">心率正常，請繼續維持健康生活型態。</span>
+                                    <span v-else>心率偏低，請注意監控數值，避免缺氧、昏厥，必要時就醫。</span>
+                                </p>
+                                <a v-if="thalach > 220" href="images/pic05.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="thalach > 220">
+                                    <p class="desc"><strong>建議：</strong> 心率過快時，請調整生活習慣，減少心臟負擔。</p>
+                                    <ul>
+                                        <li><strong>調整呼吸：</strong> 深呼吸練習（4 秒吸氣，6 秒吐氣）有助於降低交感神經興奮。</li>
+                                        <li><strong>適當運動：</strong> 選擇有氧運動（快走、游泳、瑜伽），避免劇烈運動。</li>
+                                        <li><strong>避免刺激物：</strong> 減少咖啡因、酒精、過量糖分攝取。</li>
+                                        <li><strong>放鬆壓力：</strong> 冥想、按摩、泡溫水澡可幫助穩定心率。</li>
+                                    </ul>
+                                </div>
+                                <div v-else-if="thalach < 60">
+                                    <p class="desc"><strong>建議：</strong> 若心率過低，應採取適當措施提升心率。</p>
+                                    <ul>
+                                        <li><strong>適量運動：</strong> 溫和的肌力訓練、有氧運動可改善血液循環。</li>
+                                        <li><strong>補充水分與電解質：</strong> 避免脫水導致血壓下降與心率減慢。</li>
+                                        <li><strong>適量攝取鹽分：</strong> 若無高血壓問題，可適量攝取鹽分以穩定血壓。</li>
+                                        <li><strong>就醫檢查：</strong> 若經常感到暈眩或疲倦，建議檢查心臟與甲狀腺功能。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc">目前心率正常，請繼續保持健康的生活習慣。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--wrapper 結束-->
+
+            <!--footer 開始-->
+            <div class="footer">
+                <address>© AI數據應用人才養成班_Group 1</address>
+                <address>01 陳邦彥 Byc 03 游雅婷 Emily 07 劉晏瑜 Francis 20 王偉宇 Orot 44 王佳韻 Dorothy 51 陳葳 Wei</address>
+            </div>
+            <!--footer 結束-->
+        </div>
+        <!--wrapper_box 結束-->
+
+        <script>
+            new Vue({
+                el: '#app',
+                data: {
+                    name: '',
+                    age: '',
+                    ca: '',
+                    chol: '',
+                    cp: '',
+                    exang: '',
+                    fbs: '',
+                    oldpeak: '',
+                    restecg: '',
+                    sex: '',
+                    slope: '',
+                    thal: '',
+                    thalach: '',
+                    trestbps: '',
+                    target: 0,
+                    result: '',
+                    advice: ''
+                },
+                methods: {
+                    resetForm() {
+                        this.name = '';
+                        this.age = '';
+                        this.sex = '';
+                        this.cp = '';
+                        this.trestbps = '';
+                        this.chol = '';
+                        this.fbs = '';
+                        this.restecg = '';
+                        this.thalach = '';
+                        this.exang = '';
+                        this.oldpeak = '';
+                        this.slope = '';
+                        this.ca = '';
+                        this.thal = '';
+                        this.result = '';
+                        this.advice = '';
+                    },
+                    calculate() {
+                        // 要傳送的資料
+                        const formData = {
+                            name: this.name,
+                            age: this.age,
+                            sex: this.sex,
+                            cp: this.cp,
+                            trestbps: this.trestbps,
+                            chol: this.chol,
+                            fbs: this.fbs,
+                            restecg: this.restecg,
+                            thalach: this.thalach,
+                            exang: this.exang,
+                            oldpeak: this.oldpeak,
+                            slope: this.slope,
+                            ca: this.ca,
+                            thal: this.thal
+                        };
+
+                        // 發送資料到後端 API
+                        axios.post('https://ml-predict-api-406220573568.asia-east1.run.app/api/disease/heart/records', formData)
+                            .then(response => {
+                                // 假設 API 回傳的結果包含 target, result 和 advice
+                                this.target = response.data.target;
+                                this.result = response.data.result;
+                                this.advice = response.data.advice;
+                                console.log('Data saved successfully:', response.data);
+                            })
+                            .catch(error => {
+                                console.error('Error saving data:', error);
+                            });
+                    }
+                }
+            });
+        </script>
+</body>
+
+</html>
