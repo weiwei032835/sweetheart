@@ -177,7 +177,6 @@
                     var formData = {
                         email: $("input[name='myEmail']").val(),
                         name: $("input[name='myName']").val(),
-                        password: $("input[name='myInputPw']").val()
                     };
                     
 
@@ -191,7 +190,7 @@
                             window.location.href = "index_heart.html";
                         },
                         error: function (error) {
-                            alert("資料送出失敗，請檢查輸入資訊");
+                            alert("資料送出失敗");
                             console.error('Error:', error);
                         }
                     });
