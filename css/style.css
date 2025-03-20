@@ -20,7 +20,9 @@ h1{font-size: 30px;}
 h2{font-size: 26px;}
 h3{font-size: 22px; font-weight: 500; letter-spacing: 1px;}
 
-p{margin-bottom: 0px;}
+p {
+    margin-bottom: 15px;
+}
 /*layout.css ===============================================*/
 body{background:#fff8dd; }
 /*footer ================*/ 
