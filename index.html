@@ -7,13 +7,12 @@
     <link rel="shortcut icon" href="#" />
     <title>會員登錄</title>
     <!-- fontAwesome CDN 5.11.2 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="https://cdn.bootcss.com/font-awesome/5.11.2/css/all.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 </head>
 
 <body class="login">
@@ -25,7 +24,7 @@
 
             <!--area_login 開始-->
             <div class="area_login">
-                <h3><span>心肝寶貝</span></h3>
+                <h3><span>心肝檢測</span></h3>
                 <!-- emUser 開始 -->
                 <p class="emUser"></p>
                 <!-- emUser 結束 -->
@@ -36,7 +35,8 @@
 
                 <!-- input 開始 -->
                 <p>
-                    <input class="inputName required" type="text" name="myName" placeholder="Mike" required>
+                    <input class="inputEm" type="text" name="myEmail" placeholder="預設0000" class="required" minlength="10"
+                        validate="required:true, minLength:10" required>
                     <span>姓名</span>
                 </p>
                 <!-- input 結束 -->
@@ -44,7 +44,8 @@
 
                 <!-- input 開始 -->
                 <p>
-                    <input class="inputEmail required" type="email" name="myEmail" placeholder="mike@email.com" required>
+                    <input class="inputEm" type="text" name="myEmail" placeholder="預設0000" class="required" minlength="10"
+                        validate="required:true, minLength:10" required>
                     <span>信箱</span>
                 </p>
                 <!-- input 結束 -->
@@ -53,7 +54,8 @@
 
                 <!-- input 開始 -->
                 <p>
-                    <input class="inputPw required" type="password" name="myInputPw" placeholder="預設0000" required>
+                    <input class="inputPw" type="password" name="myInputPw" placeholder="預設0000" value="555" data-toggle-pw="false"
+                        minlength="5" required>
                     <span>密碼</span>
                     <i class="btnShowPw fas"></i>
                 </p>
@@ -61,8 +63,10 @@
 
                 <button type="submit" class="btn_submit">送出</button>
 
+
             </div>
             <!--area_login 結束-->
+
 
         </form>
         <!--form 結束-->
@@ -77,7 +81,10 @@
     </div>
     <!--wrapper_box 結束-->
 
+
+
     <script>
+
         //登入區 表情切換 驗證 ========================
         $(function () {
 
@@ -132,62 +139,44 @@
 
             //按鈕 眼睛
             $(".btnShowPw").on("click", function () {
-                var $inputPw = $(".inputPw");
-                var isVisible = $inputPw.attr("type") === "text";
+                fnShowUser("pwUser");
 
-                if (isVisible) {
+                //隱藏密碼
+                if ($inputPw.data("toggle-pw") === true) {
                     $(this).addClass("active");
-                    $inputPw.attr("type", "password");
-                } else {
+                    $inputPw.attr("type", "password").data("toggle-pw", false);
+                    $(".pwUser").removeClass("showEye");
+                } else { //顯示密碼 
                     $(this).removeClass("active");
-                    $inputPw.attr("type", "text");
+                    $inputPw.attr("type", "text").data("toggle-pw", true);
+                    $(".pwUser").addClass("showEye");
                 }
             });
+
+            // 表單預設提交處理程序 
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    alert("表單送出了");
+                }
+            });
+
+
             //表單驗證和提交
             $("#myForm").validate({
-                rules: {
-                    myName: {
-                        required: true,
-                        minlength: 3
-                    },
-                    myEmail: {
-                        required: true,
-                        email: true
-                    },
-                    myInputPw: {
-                        required: true,
-                        minlength: 5
-                    }
-                },
-                messages: {
-                    myName: {
-                        required: "請輸入姓名",
-                        minlength: "姓名至少需要 3 個字元"
-                    },
-                    myEmail: {
-                        required: "請輸入電子郵件",
-                        email: "請輸入有效的電子郵件"
-                    },
-                    myInputPw: {
-                        required: "請輸入密碼",
-                        minlength: "密碼至少 5 個字元"
-                    }
-                },
                 submitHandler: function (form) {
                     var formData = {
                         email: $("input[name='myEmail']").val(),
-                        name: $("input[name='myName']").val(),
+                        name: $("input[name='myName']").val()
                     };
-                    
 
                     $.ajax({
-                        url: 'https://ml-predict-api-406220573568.asia-east1.run.app/api/user/login',
+                        url: 'https://ml-predict-api-406220573568.asia-east1.run.app/api/user/login', // 替換為你的 API 端點
                         type: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify(formData),
                         success: function (response) {
                             alert("資料已成功送出");
-                            window.location.href = "heart.html";
+                            window.location.href = "heart.html"; // 成功後跳轉到 index_heart.html
                         },
                         error: function (error) {
                             alert("資料送出失敗");
@@ -197,6 +186,7 @@
                 }
             });
         });
+
     </script>
 
 </body>
