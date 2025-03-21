@@ -35,6 +35,7 @@
             <!-- menu -->
             <div class="menu btn-group">
                 <a href="heart.html" class="btn current">心臟病檢測</a>
+                <a href="liver.html" class="btn">肝病檢測</a>
                 <a href="history.html" class="btn">健康歷史追蹤</a>
             </div>
 
@@ -172,8 +173,8 @@
                 </form>
                 <!-- 表單 結束 -->
             </div>
-            <!--v-if="result" -->
-            <div class="area area_results">
+            
+            <div class="area area_results" v-if="showResults">
 
                 <!--info 開始-->
                 <div class="info">
@@ -253,7 +254,7 @@
                                     狀態良好，請繼續保持。
                                 </p>
                                 <div v-else-if="trestbps >= 120 && trestbps <= 129">
-                                    <p class="desc"><strong>建議：</strong> 血壓偏高，請改善生活型態，定期監測血壓數值。</p>
+                                    <p class="desc"> 血壓偏高，請改善生活型態，定期監測血壓數值。</p>
                                     <ul>
                                         <li><strong>飲食調整：</strong> 控制鹽分攝取，選擇低鹽、低脂、高纖維食物。</li>
                                         <li><strong>規律運動：</strong> 建議每週至少 150 分鐘中等強度運動，例如快走或騎腳踏車。</li>
@@ -262,7 +263,7 @@
                                     </ul>
                                 </div>
                                 <div v-else-if="trestbps >= 130 && trestbps <= 139">
-                                    <p class="desc"><strong>建議：</strong> 血壓已達高血壓標準，需積極控制並定期監測。</p>
+                                    <p class="desc"> 血壓已達高血壓標準，需積極控制並定期監測。</p>
                                     <ul>
                                         <li><strong>健康飲食：</strong> 減少攝取加工食品，增加蔬菜、水果及富含鉀的食物。</li>
                                         <li><strong>運動習慣：</strong> 每天至少 30 分鐘的有氧運動，如健走、游泳。</li>
@@ -271,7 +272,7 @@
                                     </ul>
                                 </div>
                                 <div v-else>
-                                    <p class="desc"><strong>建議：</strong> 血壓過高，請立即就醫追蹤，以降低心血管疾病風險。</p>
+                                    <p class="desc"> 血壓過高，請立即就醫追蹤，以降低心血管疾病風險。</p>
                                     <ul>
                                         <li><strong>緊急就醫：</strong> 若出現頭暈、胸悶等症狀，應立即尋求醫療協助。</li>
                                         <li><strong>藥物治療：</strong> 依照醫師指示服藥，不可自行停藥。</li>
@@ -300,7 +301,7 @@
                                     <p class="desc">膽固醇正常，請繼續保持健康生活型態。</p>
                                 </div>
                                 <div v-else-if="chol >= 200 && chol <= 239">
-                                    <p class="desc"><strong>建議：</strong> 膽固醇偏高，請調整飲食型態，保持規律運動。</p>
+                                    <p class="desc"> 膽固醇偏高，請調整飲食型態，保持規律運動。</p>
                                     <ul>
                                         <li>高纖食物（燕麥、糙米、豆類）可降低壞膽固醇。</li>
                                         <li>健康油脂（橄欖油、深海魚、堅果）可提高好膽固醇。</li>
@@ -308,7 +309,7 @@
                                     </ul>
                                 </div>
                                 <div v-else>
-                                    <p class="desc"><strong>建議：</strong> 膽固醇過高，請積極調整飲食習慣，增加運動量，諮詢專業醫師建議控制。</p>
+                                    <p class="desc"> 膽固醇過高，請積極調整飲食習慣，增加運動量，諮詢專業醫師建議控制。</p>
                                     <ul>
                                         <li>每週150分鐘中等強度運動有助於降低壞膽固醇。</li>
                                         <li>重量訓練搭配有氧運動效果更佳。</li>
@@ -336,7 +337,7 @@
                                     <p class="desc">血糖正常，請繼續維持健康生活型態。</p>
                                 </div>
                                 <div v-else>
-                                    <p class="desc"><strong>建議：</strong> 血糖偏高，建議改善飲食型態，定期量測追蹤。</p>
+                                    <p class="desc"> 血糖偏高，建議改善飲食型態，定期量測追蹤。</p>
                                     <ul>
                                         <li><strong>控制飲食：</strong> 避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
                                         <li><strong>規律運動：</strong> 適當運動有助於穩定血糖，提高胰島素敏感性。</li>
@@ -366,7 +367,7 @@
                             </div>
                             <div class="content">
                                 <div v-if="thalach > 220">
-                                    <p class="desc"><strong>建議：</strong> 心率過快時，請調整生活習慣，減少心臟負擔。</p>
+                                    <p class="desc"> 心率過快時，請調整生活習慣，減少心臟負擔。</p>
                                     <ul>
                                         <li><strong>調整呼吸：</strong> 深呼吸練習（4 秒吸氣，6 秒吐氣）有助於降低交感神經興奮。</li>
                                         <li><strong>適當運動：</strong> 選擇有氧運動（快走、游泳、瑜伽），避免劇烈運動。</li>
@@ -375,7 +376,7 @@
                                     </ul>
                                 </div>
                                 <div v-else-if="thalach < 60">
-                                    <p class="desc"><strong>建議：</strong> 若心率過低，應採取適當措施提升心率。</p>
+                                    <p class="desc"> 若心率過低，應採取適當措施提升心率。</p>
                                     <ul>
                                         <li><strong>適量運動：</strong> 溫和的肌力訓練、有氧運動可改善血液循環。</li>
                                         <li><strong>補充水分與電解質：</strong> 避免脫水導致血壓下降與心率減慢。</li>
@@ -420,9 +421,10 @@
                     thal: '',
                     thalach: '',
                     trestbps: '',
-                    target: 0,
+                    target: 0, // 0 低風險 1 高風險
                     result: '',
-                    advice: ''
+                    advice: '',
+                    showResults: false // 新增變數來控制顯示狀態
                 },
                 methods: {
                     resetForm() {
@@ -442,10 +444,15 @@
                         this.thal = '';
                         this.result = '';
                         this.advice = '';
+                        this.showResults = false; // 重置時隱藏結果
                     },
                     calculate() {
-                        // 要傳送的資料
-                        const formData = {
+                        // 模擬計算結果
+                        this.target = Math.random() > 0.5 ? 1 : 0; // 隨機生成高風險或低風險
+                        this.result = this.target === 1 ? '高風險' : '低風險';
+                        this.advice = this.target === 1 ? '建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。' : '請繼續維持良好生活習慣，定期健康檢查。';
+                        this.showResults = true; // 顯示結果區域
+                        console.log('計算結果:', {
                             name: this.name,
                             age: this.age,
                             sex: this.sex,
@@ -459,21 +466,11 @@
                             oldpeak: this.oldpeak,
                             slope: this.slope,
                             ca: this.ca,
-                            thal: this.thal
-                        };
-
-                        // 發送資料到後端 API
-                        axios.post('https://ml-predict-api-406220573568.asia-east1.run.app/api/disease/heart/records', formData)
-                            .then(response => {
-                                // 假設 API 回傳的結果包含 target, result 和 advice
-                                this.target = response.data.target;
-                                this.result = response.data.result;
-                                this.advice = response.data.advice;
-                                console.log('Data saved successfully:', response.data);
-                            })
-                            .catch(error => {
-                                console.error('Error saving data:', error);
-                            });
+                            thal: this.thal,
+                            target: this.target,
+                            result: this.result,
+                            advice: this.advice
+                        });
                     }
                 }
             });

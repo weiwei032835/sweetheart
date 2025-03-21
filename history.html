@@ -20,7 +20,7 @@
         <!--topbar 開始-->
         <div class="topbar_box">
             <div class="topbar">
-                <h3><i class="bi bi-heart-pulse-fill"></i>&thinsp; <span>心肝檢測</span></h3>
+                <h3><i class="bi bi-heart-pulse-fill"></i>&thinsp; <span>心肝寶貝</span></h3>
                 <ol>
                     <li>
                         <span class="name">王大明</span>
@@ -37,7 +37,7 @@
             <!-- menu -->
             <div class="menu btn-group">
                 <a href="heart.html" class="btn">心臟病檢測</a>
-                <!-- <a href="index_liver.html" class="btn">肝病檢測</a> -->
+                <a href="liver.html" class="btn">肝病檢測</a>
                 <a href="history.html" class="btn current">健康歷史追蹤</a>
             </div>
 
@@ -59,7 +59,9 @@
                             <tr>
                                 <td>2025/03/28</td>
                                 <td>王小明</td>
-                                <td>------</td>
+                                <td><a v-if="cp !== '3'" href="images/ans1.png" target="_blank">20250328_heart <i
+                                            class="bi bi-box-arrow-in-up-right"></i></a>
+                                </td>
                                
                                 <td><button><i class="bi bi-trash3"></i></button></td>
                             </tr>
@@ -86,7 +88,9 @@
                             <tr>
                                 <td>2025/03/28</td>
                                 <td>王小明</td>
-                                <td>------</td>
+                                <td><a v-if="cp !== '3'" href="images/ans2.png" target="_blank">20250328_liver <i
+                                            class="bi bi-box-arrow-in-up-right"></i></a>
+                                </td>
                                
                                 <td><button><i class="bi bi-trash3"></i></button></td>
                             </tr>

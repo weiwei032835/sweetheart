@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="#" />
+    <title>肝病檢測</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+</head>
+
+<body>
+    <!--wrapper_box 開始-->
+    <div class="wrapper_box">
+        <!--topbar 開始-->
+        <div class="topbar_box">
+            <div class="topbar">
+                <h3><i class="bi bi-heart-pulse-fill"></i>&thinsp; <span>心肝寶貝</span></h3>
+                <ol>
+                    <li>
+                        <span class="name">王大明</span>
+                    </li>
+                    <li><a href="#" title="登出" class="member"><i class="bi bi-person-circle"></i></a></li>
+                </ol>
+            </div>
+        </div>
+        <!--topbar 結束-->
+
+        <!--wrapper 開始-->
+        <div class="wrapper">
+
+            <!-- menu -->
+            <div class="menu btn-group">
+                <a href="heart.html" class="btn">心臟病檢測</a>
+                <a href="liver.html" class="btn current">肝病檢測(尚未完成)</a>
+                <a href="history.html" class="btn">健康歷史追蹤</a>
+            </div>
+
+            <!-- area -->
+            <div class="area table">
+
+                <h4>輸入參數</h4>
+                <!-- 表單 開始 -->
+                <form novalidate id="liver">
+
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="name" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="test-date" class="form-label">測驗日期</label>
+                            <input type="date" class="form-control" id="test-date" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="age" class="form-label">年齡 age</label>
+                            <select class="form-select" id="age" required>
+                                <option value="" disabled selected>20-80</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="sex" class="form-label">性別 sex</label>
+                            <div>
+                                <input type="radio" id="female" name="sex" value="0" required>
+                                <label for="female">女</label>&thinsp;
+                                <input type="radio" id="male" name="sex" value="1" required>
+                                <label for="male">男</label>
+                            </div>
+                           
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="height" class="form-label">身高 height</label>
+                            <input type="number" class="form-control" id="height" required>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="weight" class="form-label">體重 weight</label>
+                            <input type="number" class="form-control" id="weight" required>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="chol" class="form-label">酒精攝取量 AlcoholConsumption</label>
+                            <select class="form-select" id="AlcoholConsumptiont" required>
+                                <option value="" disabled selected>0-19</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="fbs" class="form-label">吸菸狀態 Smoking</label>
+                            <select class="form-select" id="Smoking" required>
+                                <option value="0">不吸菸</option>
+                                <option value="1">吸菸</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="restecg" class="form-label">遺傳風險 GeneticRisk</label>
+                            <select class="form-select" id="GeneticRisk" required>
+                                <option value="0">低</option>
+                                <option value="1">中</option>
+                                <option value="2">高</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="thalach" class="form-label">運動量 PhysicalActivity</label>
+                            <select class="form-select" id="PhysicalActivity" required>
+                                <option value="" disabled selected>0-9</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="exang" class="form-label">糖尿病狀態 Diabetes</label>
+                            <select class="form-select" id="Diabetes" required>
+                                <option value="0">有</option>
+                                <option value="1">無</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="Hypertension" class="form-label">高血壓狀態 Hypertension</label>
+                            <select class="form-select" id="Hypertension" required>
+                                <option value="0">有</option>
+                                <option value="1">無</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
+                    <button type="button" class="btn btn-secondary my-4 me-3" id="resetButton">重置</button>
+                    <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
+                </form>
+                <!-- 表單 結束 -->
+            </div>
+
+
+            <div class="area area_results">
+
+                <!--info 開始-->
+                <div class="info">
+                    <div class="title">
+                        <h3>健康報告 - </h3>
+                        <h3 class="name">王小明</h3>
+                    </div>
+                    <div class="day">
+                        <p>2025/03/28</p>
+                    </div>
+                </div>
+                <!--info 結束-->
+
+                <!--cp_card_1 開始-->
+                <div class="cp_card_1">
+                    <!--col_1 開始-->
+                    <div class="col_1">
+                        <p class="pic">
+                            <img src="./images/00.png">
+                        </p>
+                        <p>健康狀態: 正常 </p>
+
+                       
+                    </div>
+                    <!--col_1 結束-->
+
+                    <!--col_2 開始-->
+                    <div class="col_2">
+
+                        <div class="health-item ">
+                            <i class="bi bi-diamond-half"></i>
+                            <div class="list">
+                                <h4 class="red">血壓</h4>
+                                <p class="red">高血壓前期：120/80~129/89 mmHg</p>
+                            </div>
+                        </div>
+                        <div class="health-item">
+                            <i class="bi bi-diamond-half"></i>
+                            <div class="info">
+                                <h4>總膽固醇</h4>
+                                <p>正常值</p>
+
+                            </div>
+                        </div>
+                        <div class="health-item">
+                            <i class="bi bi-diamond-half"></i>
+                            <div class="info">
+                                <h4 class="red">BMI檢測</h4>
+                                <p class="red">過重：24.0 ≤ BMI < 27.0</p>
+
+                            </div>
+                        </div>
+                        <div class="health-item">
+                            <i class="bi bi-diamond-half"></i>
+                            <div class="info">
+                                <h4 class="red">空腹血糖fbs</h4>
+                                <p class="red">前期糖尿病：100-125 mg/dL</p>
+                            </div>
+                        </div>
+
+                        <!--proposal 開始-->
+                        <ol class="proposal">
+                            <li>堅果富含多不飽和脂肪酸、膳食纖維與蛋白質，而且是鉀、鎂、維生素 E 與抗 氧化劑的良好來源，建議日常飲食適量攝取堅果以降低心血管疾病的風險。</li>
+                            <li>適量補充礦物質：富含鉻、鋅、鎂、鈣的食物可以幫助胰島素發揮作用調節血糖，如全穀類、堅果類、葉菜類、乳製品。</li>
+                            <li>規律運動：運動可以增加肌肉吸收血液中葡萄糖的能力。</li>
+                        <ol/>
+                        <!--proposal 結束-->    
+
+                    </div>
+                    <!--col_2 結束-->
+                </div>
+                <!--cp_card_1 結束-->
+
+
+
+            </div>
+
+
+        </div>
+        <!--wrapper 結束-->
+       
+
+
+        <!--footer 開始-->
+        <div class="footer">
+            <address>© AI數據應用人才養成班_Group 1</address>
+            <address>01 陳邦彥 Byc 03 游雅婷 Emily 07 劉晏瑜 Francis 20 王偉宇 Orot 44 王佳韻 Dorothy 51 陳葳 Wei</address>
+        </div>
+        <!--footer 結束-->
+    </div>
+    <!--wrapper_box 結束-->    
+
+
+</body>
+
+</html>
