@@ -54,33 +54,25 @@
                             <label for="name" class="form-label">姓名</label>
                             <input type="text" class="form-control" id="name" required>
                         </div>
-                        <div class="col-md-3">
-                            <label for="test-date" class="form-label">測驗日期</label>
-                            <input type="date" class="form-control" id="test-date" required>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="age" class="form-label">年齡 age</label>
-                            <select class="form-select" id="age" required>
-                                <option value="" disabled selected>20-80</option>
-                            </select>
+                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80" placeholder="範圍 20-80" required>
                         </div>
 
                         <div class="col-md-2">
                             <label for="sex" class="form-label">性別 sex</label>
-                            <div>
-                                <input type="radio" id="female" name="sex" value="0" required>
-                                <label for="female">女</label>&thinsp;
-                                <input type="radio" id="male" name="sex" value="1" required>
-                                <label for="male">男</label>
-                            </div>
-                           
+                            <select class="form-select" id="sex" v-model="sex" required>
+                                <option value="" disabled selected>選擇性別</option>
+                                <option value="0">女</option>
+                                <option value="1">男</option>
+                            </select>
                         </div>
 
                         <div class="col-md-3">
                             <label for="height" class="form-label">身高 height</label>
-                            <input type="number" class="form-control" id="height" required>
+                            <input type="number" class="form-control" id="height" min="100" max="200" placeholder="範圍 100-200" required>
+                            <small class="form-text text-muted">單位:公分</small>
                         </div>
-
 
                         <div class="col-md-3">
                             <label for="weight" class="form-label">體重 weight</label>
@@ -88,10 +80,31 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label for="chol" class="form-label">酒精攝取量 AlcoholConsumption</label>
-                            <select class="form-select" id="AlcoholConsumptiont" required>
-                                <option value="" disabled selected>0-19</option>
+                            <label for="AlcoholConsumption" class="form-label">酒精攝取量 AlcoholConsumption</label>
+                            <select class="form-select" id="AlcoholConsumption" required>
+                                <option value="" disabled selected>選擇酒精攝取量</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                                <option value="13">13</option>
+                                <option value="14">14</option>
+                                <option value="15">15</option>
+                                <option value="16">16</option>
+                                <option value="17">17</option>
+                                <option value="18">18</option>
+                                <option value="19">19</option>
                             </select>
+                            <small class="form-text text-muted">每週 / 每單位等於10公克純酒精</small>
                         </div>
 
                         <div class="col-md-3">
@@ -112,10 +125,21 @@
                         </div>
 
                         <div class="col-md-3">
-                            <label for="thalach" class="form-label">運動量 PhysicalActivity</label>
+                            <label for="PhysicalActivity" class="form-label">運動量 PhysicalActivity</label>
                             <select class="form-select" id="PhysicalActivity" required>
-                                <option value="" disabled selected>0-9</option>
+                                <option value="" disabled selected>選擇運動量</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
                             </select>
+                            <small class="form-text text-muted">每週 / 單位：小時</small>
                         </div>
 
 
@@ -144,99 +168,22 @@
                 <!-- 表單 結束 -->
             </div>
 
-
-            <div class="area area_results">
-
-                <!--info 開始-->
-                <div class="info">
-                    <div class="title">
-                        <h3>健康報告 - </h3>
-                        <h3 class="name">王小明</h3>
-                    </div>
-                    <div class="day">
-                        <p>2025/03/28</p>
-                    </div>
-                </div>
-                <!--info 結束-->
-
-                <!--cp_card_1 開始-->
-                <div class="cp_card_1">
-                    <!--col_1 開始-->
-                    <div class="col_1">
-                        <p class="pic">
-                            <img src="./images/00.png">
-                        </p>
-                        <p>健康狀態: 正常 </p>
-
-                       
-                    </div>
-                    <!--col_1 結束-->
-
-                    <!--col_2 開始-->
-                    <div class="col_2">
-
-                        <div class="health-item ">
-                            <i class="bi bi-diamond-half"></i>
-                            <div class="list">
-                                <h4 class="red">血壓</h4>
-                                <p class="red">高血壓前期：120/80~129/89 mmHg</p>
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <i class="bi bi-diamond-half"></i>
-                            <div class="info">
-                                <h4>總膽固醇</h4>
-                                <p>正常值</p>
-
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <i class="bi bi-diamond-half"></i>
-                            <div class="info">
-                                <h4 class="red">BMI檢測</h4>
-                                <p class="red">過重：24.0 ≤ BMI < 27.0</p>
-
-                            </div>
-                        </div>
-                        <div class="health-item">
-                            <i class="bi bi-diamond-half"></i>
-                            <div class="info">
-                                <h4 class="red">空腹血糖fbs</h4>
-                                <p class="red">前期糖尿病：100-125 mg/dL</p>
-                            </div>
-                        </div>
-
-                        <!--proposal 開始-->
-                        <ol class="proposal">
-                            <li>堅果富含多不飽和脂肪酸、膳食纖維與蛋白質，而且是鉀、鎂、維生素 E 與抗 氧化劑的良好來源，建議日常飲食適量攝取堅果以降低心血管疾病的風險。</li>
-                            <li>適量補充礦物質：富含鉻、鋅、鎂、鈣的食物可以幫助胰島素發揮作用調節血糖，如全穀類、堅果類、葉菜類、乳製品。</li>
-                            <li>規律運動：運動可以增加肌肉吸收血液中葡萄糖的能力。</li>
-                        <ol/>
-                        <!--proposal 結束-->    
-
-                    </div>
-                    <!--col_2 結束-->
-                </div>
-                <!--cp_card_1 結束-->
-
-
-
-            </div>
-
-
         </div>
-        <!--wrapper 結束-->
-       
 
 
-        <!--footer 開始-->
-        <div class="footer">
-            <address>© AI數據應用人才養成班_Group 1</address>
-            <address>陳邦彥Byc /游雅婷Emily /劉晏瑜Francis /王偉宇Orot /王佳韻Dorothy /陳葳 Wei</address>
-        </div>
-        <!--footer 結束-->
     </div>
-    <!--wrapper_box 結束-->    
+    <!--wrapper 結束-->
+
+
+
+    <!--footer 開始-->
+    <div class="footer">
+        <address>© AI數據應用人才養成班_Group 1</address>
+        <address>陳邦彥Byc /游雅婷Emily /劉晏瑜Francis /王偉宇Orot /王佳韻Dorothy /陳葳 Wei</address>
+    </div>
+    <!--footer 結束-->
+    </div>
+    <!--wrapper_box 結束-->
 
 
 </body>
