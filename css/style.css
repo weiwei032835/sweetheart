@@ -510,6 +510,12 @@ a.btn_submit {
      overflow: hidden;
  }
 
+/*414px*/
+@media only screen and (max-width:414px) {
+    #chat-container {
+        width: 80%;
+    }
+}
  #chat-header {
      display: flex;
      justify-content: space-between;
