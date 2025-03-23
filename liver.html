@@ -10,9 +10,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./js/common.js"></script>
-
 </head>
 
 <body>
@@ -95,7 +96,7 @@
                                 <option value="8-14">8-14 杯</option>
                                 <option value="15+">15 杯</option>
                             </select>
-                            <small class="form-text text-muted">一杯啤酒為單位</small>
+                            <small class="form-text text-muted"> ※ 單位: 一杯啤酒</small>
                         </div>
 
                         <div class="col-md-3">
@@ -118,10 +119,11 @@
                         <div class="col-md-3">
                             <label for="PhysicalActivity" class="form-label">運動量 PhysicalActivity</label>
                             <select class="form-select" id="PhysicalActivity" required>
-                                <option value="" disabled selected>每週運動量大於三小時</option>
+                                <option value="" disabled selected>運動量大於三小時</option>
                                 <option value="0">否</option>
                                 <option value="1">是</option>
                             </select>
+                            <small class="form-text text-muted"> ※ 單位:每週</small>
                         </div>
 
 
@@ -407,7 +409,63 @@
     </div>
     <!--wrapper_box 結束-->
 
+    <script>
+        const { createApp, ref, computed } = Vue;
 
+        createApp({
+            setup() {
+                const form = ref({
+                    name: '',
+                    age: '',
+                    sex: '',
+                    height: '',
+                    weight: '',
+                    AlcoholConsumption: '',
+                    Smoking: '',
+                    GeneticRisk: '',
+                    PhysicalActivity: '',
+                    Diabetes: '',
+                    Hypertension: ''
+                });
+
+                const bmi = computed(() => {
+                    const height = parseFloat(form.value.height) / 100; // 將身高轉換為公尺
+                    const weight = parseFloat(form.value.weight);
+                    if (height > 0 && weight > 0) {
+                        return (weight / (height * height)).toFixed(2);
+                    }
+                    return '';
+                });
+
+                const calculate = () => {
+                    console.log('計算結果:', form.value);
+                };
+
+                const resetForm = () => {
+                    form.value = {
+                        name: '',
+                        age: '',
+                        sex: '',
+                        height: '',
+                        weight: '',
+                        AlcoholConsumption: '',
+                        Smoking: '',
+                        GeneticRisk: '',
+                        PhysicalActivity: '',
+                        Diabetes: '',
+                        Hypertension: ''
+                    };
+                };
+
+                return {
+                    form,
+                    bmi,
+                    calculate,
+                    resetForm
+                };
+            }
+        }).mount('#app');
+                </script>
 </body>
 
 </html>
