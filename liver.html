@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-2">
                             <label for="age" class="form-label">年齡 age</label>
-                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80" placeholder="範圍 20-80" required>
+                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80" placeholder="20-80" required>
                         </div>
 
                         <div class="col-md-2">
@@ -68,18 +68,24 @@
                             </select>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="height" class="form-label">身高 height</label>
-                            <input type="number" class="form-control" id="height" min="100" max="200" placeholder="範圍 100-200" required>
+                            <input type="number" class="form-control" id="height" min="100" max="200" placeholder="100-200" required>
                             <small class="form-text text-muted">單位:公分</small>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label for="weight" class="form-label">體重 weight</label>
                             <input type="number" class="form-control" id="weight" required>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <label for="bmi" class="form-label">BMI(自動產生)</label>
+                            <input type="text" class="form-control" id="bmi" readonly>
+                        </div>
+                        
+                        
+                        <div class="col-md-5">
                             <label for="AlcoholConsumption" class="form-label">酒精攝取量 AlcoholConsumption</label>
                             <select class="form-select" id="AlcoholConsumption" required>
                                 <option value="" disabled selected>選擇酒精攝取量</option>
@@ -127,19 +133,10 @@
                         <div class="col-md-3">
                             <label for="PhysicalActivity" class="form-label">運動量 PhysicalActivity</label>
                             <select class="form-select" id="PhysicalActivity" required>
-                                <option value="" disabled selected>選擇運動量</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
+                                <option value="" disabled selected>是否每週運動量大於三小時</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
                             </select>
-                            <small class="form-text text-muted">每週 / 單位：小時</small>
                         </div>
 
 
@@ -166,8 +163,21 @@
                     <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
                 </form>
                 <!-- 表單 結束 -->
-            </div>
 
+            </div>
+            <!-- 客服按鈕 -->
+            <div id="chat-icon">
+                <img src="./images/service.png" alt="">
+            </div>
+            <!-- 聊天室容器 -->
+            <div id="chat-container">
+                <div id="chat-header">
+                    <span>線上保健室</span>
+                    <button id="close-chat">✖</button>
+                </div>
+                <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+                    frameborder="0"></iframe>
+            </div>
         </div>
 
 

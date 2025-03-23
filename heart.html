@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./js/common.js"></script>
 </head>
 
 <body>
@@ -162,10 +164,15 @@
                     <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
                     <button type="button" class="btn btn-secondary my-4  me-3" @click="resetForm">重置</button>
                     <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
+
                 </form>
                 <!-- 表單 結束 -->
+                <!-- 小字備註 -->
+                <small class="form-text text-muted text-center">
+                    僅供簡易測試，精確數值請至醫療院所檢查
+                </small>
             </div>
-            
+
             <div class="area area_results" v-if="showResults">
 
                 <!--info 開始-->
@@ -384,6 +391,24 @@
                     </div>
                 </div>
             </div>
+
+            
+            <!-- 客服按鈕 -->
+            <div id="chat-icon">
+                <img src="./images/service.png" alt="">
+            </div>
+            
+            
+            <!-- 聊天室容器 -->
+            <div id="chat-container">
+                <div id="chat-header">
+                    <span>線上保健室</span>
+                    <button id="close-chat">✖</button>
+                </div>
+                <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+                    frameborder="0"></iframe>
+            </div>
+
             <!--wrapper 結束-->
 
             <!--footer 開始-->
@@ -466,6 +491,7 @@
                     }
                 }
             });
+
         </script>
 </body>
 
