@@ -287,8 +287,15 @@ border-radius: 5px;
 }
 .menu a.btn:first-child {
     border-left: none; 
-
 }
+
+/*414px*/
+@media only screen and (max-width:414px) {
+    .menu a.btn {
+        padding: 5px 5px;
+    }
+}
+
 
 .menu a:hover{background:#ffcb63;color: #454545;}
 .menu a.current{color: #fff; background:#0b5516;}
