@@ -56,7 +56,8 @@
                         </div>
                         <div class="col-md-2">
                             <label for="age" class="form-label">年齡 age</label>
-                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80" placeholder="20-80" required>
+                            <input type="number" class="form-control" id="age" v-model="age" min="20" max="80"
+                                placeholder="20-80" required>
                         </div>
 
                         <div class="col-md-2">
@@ -70,47 +71,31 @@
 
                         <div class="col-md-2">
                             <label for="height" class="form-label">身高 height</label>
-                            <input type="number" class="form-control" id="height" min="100" max="200" placeholder="100-200" required>
-                            <small class="form-text text-muted">單位:公分</small>
+                            <input type="number" class="form-control" id="height" min="100" max="200" placeholder="公分"
+                                required>
                         </div>
 
                         <div class="col-md-2">
                             <label for="weight" class="form-label">體重 weight</label>
-                            <input type="number" class="form-control" id="weight" required>
+                            <input type="number" class="form-control" id="weight" placeholder="斤" required>
                         </div>
 
                         <div class="col-md-3">
                             <label for="bmi" class="form-label">BMI(自動產生)</label>
                             <input type="text" class="form-control" id="bmi" readonly>
                         </div>
-                        
-                        
-                        <div class="col-md-5">
-                            <label for="AlcoholConsumption" class="form-label">酒精攝取量 AlcoholConsumption</label>
+
+
+                        <div class="col-md-4">
+                            <label for="AlcoholConsumption" class="form-label">每周飲酒量 AlcoholConsumption</label>
                             <select class="form-select" id="AlcoholConsumption" required>
                                 <option value="" disabled selected>選擇酒精攝取量</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
-                                <option value="13">13</option>
-                                <option value="14">14</option>
-                                <option value="15">15</option>
-                                <option value="16">16</option>
-                                <option value="17">17</option>
-                                <option value="18">18</option>
-                                <option value="19">19</option>
+                                <option value="0">完全不喝</option>
+                                <option value="1-7">1-7 杯</option>
+                                <option value="8-14">8-14 杯</option>
+                                <option value="15+">15 杯</option>
                             </select>
-                            <small class="form-text text-muted">每週 / 每單位等於10公克純酒精</small>
+                            <small class="form-text text-muted">一杯啤酒為單位</small>
                         </div>
 
                         <div class="col-md-3">
@@ -133,7 +118,7 @@
                         <div class="col-md-3">
                             <label for="PhysicalActivity" class="form-label">運動量 PhysicalActivity</label>
                             <select class="form-select" id="PhysicalActivity" required>
-                                <option value="" disabled selected>是否每週運動量大於三小時</option>
+                                <option value="" disabled selected>每週運動量大於三小時</option>
                                 <option value="0">否</option>
                                 <option value="1">是</option>
                             </select>
@@ -163,7 +148,233 @@
                     <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
                 </form>
                 <!-- 表單 結束 -->
+                <!-- 小字備註 -->
+                <small class="form-text text-muted text-center">
+                    僅供簡易測試，精確數值請至醫療院所檢查
+                </small>
+            </div>
 
+
+            <div class="area area_results">
+
+                <!--info 開始-->
+                <div class="info">
+                    <div class="report title">
+                        <h3>健康報告 - </h3>
+                        <h3 class="name">{{ name }}</h3>
+                    </div>
+                </div>
+                <!--info 結束-->
+
+                <!--cp_card_1 開始-->
+                <div class="cp_card_1">
+                    <!--col_1 開始-->
+                    <div class="col_1">
+                        <p class="pic">
+                            <img :src="target === 0 ? 'images/00.png' : 'images/01.png'">
+                        </p>
+                        <p>心臟病評斷: <span v-if="target === 0">低風險族群</span><span v-else>高風險族群</span></p>
+
+                        <div class="content">
+                            <p class="desc" v-if="target === 0">
+                                請繼續維持良好生活習慣，定期健康檢查。<br>
+                                身體健康就是您最大的財富!
+                            </p>
+                            <p class="desc" v-else>
+                                建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。<br>戒菸與限制每日飲酒量，以利降低心臟相關疾病風險。
+                            </p>
+                        </div>
+                    </div>
+                    <!--col_1 結束-->
+
+                    <!--col_2 開始-->
+                    <div class="col_2">
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': cp !== '3', 'gray': cp === '3'}"><i
+                                        class="bi bi-diamond-half"></i>胸痛類型
+                                </h4>
+                                <h4 class="value" :class="{'red': cp !== '3', 'gray': cp === '3'}">
+                                    <span v-if="cp === '0'">典型心絞痛</span>
+                                    <span v-else-if="cp === '1'">非典型心絞痛</span>
+                                    <span v-else-if="cp === '2'">非心絞痛</span>
+                                    <span v-else>無症況</span>
+                                </h4>
+                                <a v-if="cp !== '3'" href="images/pic01.png" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content" v-if="cp !== '3'">
+                                <p class="desc">
+                                    關心自己的血壓、血脂及血糖等數據變化。<br>發生胸痛時，先坐下並觀察疼痛位置、時間長度、實際感受，若3分鐘後仍然不舒服，應盡速就醫，以避免誤判而失去黃金治療時間。
+                                </p>
+                                <p class="link"></p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    <i class="bi bi-diamond-half"></i> 血壓
+                                </h4>
+                                <h4 class="value" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    {{ trestbps }}
+                                </h4>
+                                <p class="mark" :class="{'red': trestbps >= 120, 'gray': trestbps < 120}">
+                                    <span v-if="trestbps < 120">血壓正常：< 120/80 mmHg</span>
+                                            <span v-else-if="trestbps >= 120 && trestbps <= 129">高血壓前期：120/80~129/89
+                                                mmHg</span>
+                                            <span v-else-if="trestbps >= 130 && trestbps <= 139">高血壓：130/80 ~139/89
+                                                mmHg</span>
+                                            <span v-else>高血壓危險期：>=140/90 mmHg</span>
+                                </p>
+                                <a v-if="trestbps >= 120" href="images/pic02.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <p class="desc" v-if="trestbps < 120">
+                                    狀態良好，請繼續保持。
+                                </p>
+                                <div v-else-if="trestbps >= 120 && trestbps <= 129">
+                                    <p class="desc"> 血壓偏高，請改善生活型態，定期監測血壓數值。</p>
+                                    <ul>
+                                        <li><strong>飲食調整：</strong> 控制鹽分攝取，選擇低鹽、低脂、高纖維食物。</li>
+                                        <li><strong>規律運動：</strong> 建議每週至少 150 分鐘中等強度運動，例如快走或騎腳踏車。</li>
+                                        <li><strong>體重管理：</strong> 若有過重情況，適量減重有助於降低血壓。</li>
+                                        <li><strong>壓力管理：</strong> 保持心情放鬆，避免長期處於壓力狀態。</li>
+                                    </ul>
+                                </div>
+                                <div v-else-if="trestbps >= 130 && trestbps <= 139">
+                                    <p class="desc"> 血壓已達高血壓標準，需積極控制並定期監測。</p>
+                                    <ul>
+                                        <li><strong>健康飲食：</strong> 減少攝取加工食品，增加蔬菜、水果及富含鉀的食物。</li>
+                                        <li><strong>運動習慣：</strong> 每天至少 30 分鐘的有氧運動，如健走、游泳。</li>
+                                        <li><strong>限酒戒菸：</strong> 避免過量飲酒，戒菸可顯著降低心血管風險。</li>
+                                        <li><strong>定期測量：</strong> 每日監測血壓數值，避免突然升高。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"> 血壓過高，請立即就醫追蹤，以降低心血管疾病風險。</p>
+                                    <ul>
+                                        <li><strong>緊急就醫：</strong> 若出現頭暈、胸悶等症狀，應立即尋求醫療協助。</li>
+                                        <li><strong>藥物治療：</strong> 依照醫師指示服藥，不可自行停藥。</li>
+                                        <li><strong>低鹽飲食：</strong> 避免高鈉食物，如泡麵、醃漬食品、加工肉品。</li>
+                                        <li><strong>規律作息：</strong> 充足睡眠有助於穩定血壓，避免熬夜與過度勞累。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': chol >= 200, 'gray': chol < 200}"><i
+                                        class="bi bi-diamond-half"></i>膽固醇
+                                </h4>
+                                <h4 class="value" :class="{'red': chol >= 200, 'gray': chol < 200}">{{ chol }}</h4>
+                                <p class="mark" :class="{'red': chol >= 200, 'gray': chol < 200}">
+                                    <span v-if="chol < 200">膽固醇正常：< 200 mg/dL</span>
+                                            <span v-else-if="chol >= 200 && chol <= 239">膽固醇偏高：200-239 mg/dL</span>
+                                            <span v-else>膽固醇過高：≥ 240 mg/dL</span>
+                                </p>
+                                <a v-if="chol >= 200" href="images/pic03.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="chol < 200">
+                                    <p class="desc">膽固醇正常，請繼續保持健康生活型態。</p>
+                                </div>
+                                <div v-else-if="chol >= 200 && chol <= 239">
+                                    <p class="desc"> 膽固醇偏高，請調整飲食型態，保持規律運動。</p>
+                                    <ul>
+                                        <li>高纖食物（燕麥、糙米、豆類）可降低壞膽固醇。</li>
+                                        <li>健康油脂（橄欖油、深海魚、堅果）可提高好膽固醇。</li>
+                                        <li>蔬果（富含抗氧化物，如蘋果、柑橘、綠葉蔬菜）。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"> 膽固醇過高，請積極調整飲食習慣，增加運動量，諮詢專業醫師建議控制。</p>
+                                    <ul>
+                                        <li>每週150分鐘中等強度運動有助於降低壞膽固醇。</li>
+                                        <li>重量訓練搭配有氧運動效果更佳。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': fbs === '1', 'gray': fbs === '0'}"><i
+                                        class="bi bi-diamond-half"></i>血糖
+                                </h4>
+                                <h4 class="value" :class="{'red': fbs === '1', 'gray': fbs === '0'}">{{ fbs === '0' ?
+                                    '空腹血糖 <= 120 mg/dl' : '空腹血糖 > 120 mg/dl' }}</h4>
+                                        <p class="mark" :class="{'red': fbs === '1', 'gray': fbs === '0'}">
+                                            <span v-if="fbs === '0'">血糖正常：<= 120 mg/dl</span>
+                                                    <span v-else>糖尿病前期：> 120 mg/dl</span>
+                                        </p>
+                                        <a v-if="fbs === '1'" href="images/pic04.jpg" target="_blank">衛教圖1 <i
+                                                class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="fbs === '0'">
+                                    <p class="desc">血糖正常，請繼續維持健康生活型態。</p>
+                                </div>
+                                <div v-else>
+                                    <p class="desc"> 血糖偏高，建議改善飲食型態，定期量測追蹤。</p>
+                                    <ul>
+                                        <li><strong>控制飲食：</strong> 避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
+                                        <li><strong>規律運動：</strong> 適當運動有助於穩定血糖，提高胰島素敏感性。</li>
+                                        <li><strong>定期監測血糖：</strong> 養成監測血糖的習慣，及早發現異常。</li>
+                                        <li><strong>按時服藥：</strong> 若醫生開立藥物，請依指示服用，避免血糖失控。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <i class="bi bi-diamond-half"></i>最大心率
+                                </h4>
+                                <h4 class="value" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <span v-if="thalach > 220">高心率（> 220）</span>
+                                    <span v-else-if="thalach >= 60 && thalach <= 100">正常心率（60-100）</span>
+                                    <span v-else>低心率（< 60）</span>
+                                </h4>
+                                <p class="mark" :class="{'red': thalach > 220, 'gray': thalach < 60}">
+                                    <span v-if="thalach > 220">心率過快，可能是運動中或心臟負擔過重，建議進一步就醫追蹤。</span>
+                                    <span v-else-if="thalach >= 60 && thalach <= 100">心率正常，請繼續維持健康生活型態。</span>
+                                    <span v-else>心率偏低，請注意監控數值，避免缺氧、昏厥，必要時就醫。</span>
+                                </p>
+                                <a v-if="thalach > 220" href="images/pic05.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <div v-if="thalach > 220">
+                                    <p class="desc"> 心率過快時，請調整生活習慣，減少心臟負擔。</p>
+                                    <ul>
+                                        <li><strong>調整呼吸：</strong> 深呼吸練習（4 秒吸氣，6 秒吐氣）有助於降低交感神經興奮。</li>
+                                        <li><strong>適當運動：</strong> 選擇有氧運動（快走、游泳、瑜伽），避免劇烈運動。</li>
+                                        <li><strong>避免刺激物：</strong> 減少咖啡因、酒精、過量糖分攝取。</li>
+                                        <li><strong>放鬆壓力：</strong> 冥想、按摩、泡溫水澡可幫助穩定心率。</li>
+                                    </ul>
+                                </div>
+                                <div v-else-if="thalach < 60">
+                                    <p class="desc"> 若心率過低，應採取適當措施提升心率。</p>
+                                    <ul>
+                                        <li><strong>適量運動：</strong> 溫和的肌力訓練、有氧運動可改善血液循環。</li>
+                                        <li><strong>補充水分與電解質：</strong> 避免脫水導致血壓下降與心率減慢。</li>
+                                        <li><strong>適量攝取鹽分：</strong> 若無高血壓問題，可適量攝取鹽分以穩定血壓。</li>
+                                        <li><strong>就醫檢查：</strong> 若經常感到暈眩或疲倦，建議檢查心臟與甲狀腺功能。</li>
+                                    </ul>
+                                </div>
+                                <div v-else>
+                                    <p class="desc">目前心率正常，請繼續保持健康的生活習慣。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- 客服按鈕 -->
             <div id="chat-icon">
@@ -175,7 +386,8 @@
                     <span>線上保健室</span>
                     <button id="close-chat">✖</button>
                 </div>
-                <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+                <iframe id="chat-iframe"
+                    src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
                     frameborder="0"></iframe>
             </div>
         </div>
