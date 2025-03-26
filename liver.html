@@ -178,7 +178,7 @@
             </div>
 
 
-            <div class="area area_results">
+            <div class="area area_results" v-show="showReport">
 
                 <!--info 開始-->
                 <div class="info">
@@ -207,16 +207,18 @@
                     <!--col_2 開始-->
                     <div class="col_2">
 
-                        <div class="health-item">
+                        <div class="health-item" v-if="bmiCategory">
                             <div class="info">
-                                <h4 class="title red"><i class="bi bi-diamond-half"></i>BMI檢測</h4>
-                                <h4 class="value red">16</h4>
-                                <h4 class="value red">過輕：BMI < 18.5</h4>
-                                        <a href="/images/pic06.png" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
+                                <h4 class="title" :class="bmiCategory.style">
+                                    <i class="bi bi-diamond-half"></i>BMI檢測
+                                </h4>
+                                <h4 class="value" :class="bmiCategory.style">{{ bmi }}</h4>
+                                <h4 class="value" :class="bmiCategory.style">{{ bmiCategory.category }}</h4>
+                                <a href="/images/pic06.png" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
                             </div>
                             <div class="content">
                                 <p class="desc">
-                                    補充營養不挑食，健康增重更有勁！
+                                    {{ bmiCategory.description }}
                                 </p>
                             </div>
                         </div>
@@ -257,7 +259,7 @@
                                 <p class="desc">
                                     健康從每一次的運動開始，快樂源自於身體的活力！
                                     久坐傷身，動起來才青春！
-                                
+
                                 </p>
                             </div>
                         </div>
@@ -276,10 +278,10 @@
                                     <li>控制飲食：避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
                                     <li>規律運動：適當運動有助於穩定血糖，提高胰島素敏感性。</li>
                                     <li>定期監測血糖：養成監測血糖的習慣，及早發現異常。</li>
-                                    </ul>
+                                </ul>
                                 </p>
                             </div>
-                            </div>
+                        </div>
 
                         <div class="health-item">
                             <div class="info">
@@ -291,29 +293,27 @@
                                 <p class="desc">
                                     保持良好飲食和運動，擁抱健康血壓！
                                 </p>
-                                </div>
-                                </div>
-
-
+                            </div>
+                            </div>
                     </div>
                     <!--col_2 結束-->
                 </div>
                 <!--cp_card_1 結束-->
 
             </div>
+        </div>
+        <!-- 客服按鈕 -->
+        <div id="chat-icon">
+            <img src="./images/service.png" alt="">
+        </div>
+        <!-- 聊天室容器 -->
+        <div id="chat-container">
+            <div id="chat-header">
+                <span>線上保健室</span>
+                <button id="close-chat">✖</button>
             </div>
-            <!-- 客服按鈕 -->
-            <div id="chat-icon">
-                <img src="./images/service.png" alt="">
-            </div>
-            <!-- 聊天室容器 -->
-            <div id="chat-container">
-                <div id="chat-header">
-                    <span>線上保健室</span>
-                    <button id="close-chat">✖</button>
-                </div>
-                <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
-                    frameborder="0"></iframe>
+            <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+                frameborder="0"></iframe>
             </div>
             </div>
 
@@ -365,7 +365,39 @@
                     console.log('體重:', form.value.weight); // 檢查體重的值
                     console.log('完整表單數據:', form.value); // 檢查整個表單數據
                 };
-
+                const bmiCategory = computed(() => {
+                    const bmiValue = parseFloat(bmi.value);
+                    if (bmiValue < 18.5) {
+                        return {
+                            category: '過輕',
+                            description: '補充營養不挑食，健康增重更有勁！',
+                            style: 'red'
+                        };
+                    } else if (bmiValue >= 18.5 && bmiValue < 24.0) {
+                        return {
+                            category: '正常',
+                            description: '吃得剛剛，動得適量，健康體態最理想！',
+                            style: 'green'
+                        };
+                    } else if (bmiValue >= 24.0 && bmiValue < 27.0) {
+                        return {
+                            category: '過重',
+                            description: '少油少糖多運動，健康體態動起來！',
+                            style: 'orange'
+                        };
+                    } else if (bmiValue >= 27.0) {
+                        return {
+                            category: '肥胖',
+                            description: '飲食控制搭配運動，健康生活就從今天開始！',
+                            style: 'red'
+                        };
+                    }
+                    return {
+                        category: '未知',
+                        description: '請輸入正確的身高和體重以計算 BMI。',
+                        style: 'gray'
+                    };
+                });
                 const resetForm = () => {
                     form.value = {
                         name: '',
@@ -380,6 +412,8 @@
                         Diabetes: '',
                         Hypertension: ''
                     };
+                    // 隱藏健康報告
+                    showReport.value = false;
                 };
 
                 return {
