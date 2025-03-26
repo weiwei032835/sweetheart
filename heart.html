@@ -123,43 +123,6 @@
                                 placeholder="範圍 50-250" min="50" max="250" required>
                         </div>
 
-
-
-                        <!-- <div class="col-md-3">
-                            <label for="oldpeak" class="form-label">ST 段壓低 oldpeak</label>
-                            <select class="form-select" id="oldpeak" v-model="oldpeak" required>
-                                <option value="" disabled selected>選擇 ST 段壓低</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="slope" class="form-label">ST 段的斜率 slope</label>
-                            <select class="form-select" id="slope" v-model="slope" required>
-                                <option value="" disabled selected>選擇 ST 段的斜率</option>
-                                <option value="0">低</option>
-                                <option value="1">中</option>
-                                <option value="2">高</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label for="thal" class="form-label">冠狀動脈(血管)數量 ca</label>
-
-                            <select class="form-select" id="ca" v-model="ca" required>
-                                <option value="" disabled selected>選擇 血管數量</option>
-                                <option value="0">0</option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                            </select>
-                        </div> -->
-
                     </div>
                     <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
                     <button type="button" class="btn btn-secondary my-4  me-3" @click="resetForm">重置</button>
@@ -397,8 +360,8 @@
             <div id="chat-icon">
                 <img src="./images/service.png" alt="">
             </div>
-            
-            
+
+
             <!-- 聊天室容器 -->
             <div id="chat-container">
                 <div id="chat-header">
@@ -464,30 +427,47 @@
                         this.showResults = false; // 重置時隱藏結果
                     },
                     calculate() {
+                        // 設定固定值
+                        this.ca = 0;
+                        this.slope = 2;
+                        this.oldpeak = 1;
+
                         // 模擬計算結果
                         this.target = Math.random() > 0.5 ? 1 : 0; // 隨機生成高風險或低風險
                         this.result = this.target === 1 ? '高風險' : '低風險';
-                        this.advice = this.target === 1 ? '建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。' : '請繼續維持良好生活習慣，定期健康檢查。';
+                        this.advice = this.target === 1
+                            ? '建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。'
+                            : '請繼續維持良好生活習慣，定期健康檢查。';
+
                         this.showResults = true; // 顯示結果區域
-                        console.log('計算結果:', {
-                            name: this.name,
-                            age: this.age,
-                            sex: this.sex,
-                            cp: this.cp,
-                            trestbps: this.trestbps,
-                            chol: this.chol,
-                            fbs: this.fbs,
-                            restecg: this.restecg,
-                            thalach: this.thalach,
-                            exang: this.exang,
-                            oldpeak: this.oldpeak,
-                            slope: this.slope,
-                            ca: this.ca,
-                            thal: this.thal,
-                            target: this.target,
-                            result: this.result,
-                            advice: this.advice
-                        });
+
+                        // 送出資料到資料庫
+                        fetch('https://your-database-api.com/save', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                name: this.name,
+                                age: this.age,
+                                sex: this.sex,
+                                cp: this.cp,
+                                trestbps: this.trestbps,
+                                chol: this.chol,
+                                fbs: this.fbs,
+                                restecg: this.restecg,
+                                thalach: this.thalach,
+                                exang: this.exang,
+                                oldpeak: this.oldpeak, // 固定值 1
+                                slope: this.slope, // 固定值 2
+                                ca: this.ca, // 固定值 0
+                                thal: this.thal,
+                                target: this.target,
+                                result: this.result,
+                                advice: this.advice
+                            })
+                        })
+                            .then(response => response.json())
+                            .then(data => console.log('成功送出:', data))
+                            .catch(error => console.error('發送失敗:', error));
                     }
                 }
             });

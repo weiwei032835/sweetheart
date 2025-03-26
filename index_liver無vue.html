@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="#" />
+    <title>index_liver無vue</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+</head>
+
+<body>
+    <!--wrapper_box 開始-->
+    <div class="wrapper_box">
+        <!--topbar 開始-->
+        <div class="topbar_box">
+            <div class="topbar">
+                <h3><i class="bi bi-heart-pulse-fill"></i>&thinsp; <span>心肝檢測</span></h3>
+                <ol>
+                    <li>
+                        <span class="name">王大明</span>
+                    </li>
+                    <li><a href="#" title="登出" class="member"><i class="bi bi-person-circle"></i></a></li>
+                </ol>
+            </div>
+        </div>
+        <!--topbar 結束-->
+
+        <!--wrapper 開始-->
+        <div class="wrapper">
+
+            <!-- menu -->
+            <div class="menu btn-group">
+                <a href="index_heart.html" class="btn current">心臟病檢測</a>
+                <a href="index_liver.html" class="btn">肝病檢測</a>
+                <a href="index_history.html" class="btn">健康歷史追蹤</a>
+            </div>
+
+            <!-- area -->
+            <div class="area table">
+
+                <h4>輸入參數</h4>
+                <!-- 表單 開始 -->
+                <form novalidate>
+
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="name" class="form-label">姓名</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="test-date" class="form-label">測驗日期</label>
+                            <input type="date" class="form-control" id="test-date" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="age" class="form-label">年齡 age</label>
+                            <select class="form-select" id="age" required>
+                                <option value="" disabled selected>20-80</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="sex" class="form-label">性別 sex</label>
+                            <div>
+                                <input type="radio" id="female" name="sex" value="0" required>
+                                <label for="female">女</label>&thinsp;
+                                <input type="radio" id="male" name="sex" value="1" required>
+                                <label for="male">男</label>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="cp" class="form-label">胸痛類型 cp</label>
+                            <select class="form-select" id="cp" required>
+                                <option value="0">典型心絞痛</option>
+                                <option value="1">非典型心絞痛</option>
+                                <option value="2">非心絞痛</option>
+                                <option value="3">無症況</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="trestbps" class="form-label">血壓 trestbps</label>
+                            <select class="form-select" id="trestbps" required>
+                                <option value="" disabled selected>選擇血壓</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="chol" class="form-label">膽固醇 chol</label>
+                            <select class="form-select" id="chol" required>
+                                <option value="" disabled selected>選擇膽固醇</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="fbs" class="form-label">血糖 fbs</label>
+                            <select class="form-select" id="fbs" required>
+                                <option value="0">空腹血糖 <= 120 mg/dl</option>
+                                <option value="1">空腹血糖 > 120 mg/dl</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="restecg" class="form-label">靜息心電圖 restecg</label>
+                            <select class="form-select" id="restecg" required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="thalach" class="form-label">最大心率 thalach</label>
+                            <select class="form-select" id="thalachSelect" required>
+                                <option value="" disabled selected>選擇最大心率</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="exang" class="form-label">運動誘發心絞痛 exang </label>
+                            <select class="form-select" id="exang" required>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="slope" class="form-label">ST 段壓低 oldpeak</label>
+                            <select class="form-select" id="oldpeakSelect" required>
+                                <option value="" disabled selected>選擇 ST 段壓低</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="slope" class="form-label">ST 段的斜率 slope</label>
+                            <select class="form-select" id="ca" required>
+                                <option value="0">正常</option>
+                                <option value="1">固定缺陷</option>
+                                <option value="2">可逆缺陷</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="ca" class="form-label">血管 ca</label>
+                            <select class="form-select" id="ca" required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <label for="thal" class="form-label">鉈掃描結果 thal</label>
+                            <select class="form-select" id="thal" required>
+                                <option value="0">正常</option>
+                                <option value="1">固定缺陷</option>
+                                <option value="2">可逆缺陷</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
+                    <button type="button" class="btn btn-secondary my-4 me-3" id="resetButton">重置</button>
+                    <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
+                </form>
+                <!-- 表單 結束 -->
+            </div>
+
+
+            <div class="area area_results">
+
+                <!--info 開始-->
+                <div class="info">
+                    <div class="report title ">
+                        <h3>健康報告 - </h3>
+                        <h3 class="name">王小明</h3>
+                    </div>
+                </div>
+                <!--info 結束-->
+
+                <!--cp_card_1 開始-->
+                <div class="cp_card_1">
+                    <!--col_1 開始-->
+                    <div class="col_1">
+                        <p class="pic">
+                            <img src="./images/01.png">
+                        </p>
+                        <p>肝病評斷: 高風險族群 </p>
+
+                        <div class="content">
+                            <p class="desc"> 肝臟警報！建議定期檢查，注意肝指數，及早發現才不會讓疾病蔓延！ </p>
+                        </div>
+                    </div>
+                    <!--col_1 結束-->
+
+                    <!--col_2 開始-->
+                    <div class="col_2">
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title red"><i class="bi bi-diamond-half"></i>BMI檢測</h4>
+                                <h4 class="value red">16</h4>
+                                <h4 class="value red">過輕：BMI < 18.5</h4>
+                                <a href="/images/pic06.png" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    補充營養不挑食，健康增重更有勁！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title red"><i class="bi bi-diamond-half"></i>每周飲酒量</h4>
+                                <h4 class="value red">16</h4>
+                                <p class="mark red">成年男性：每週 < 14單位的純酒精 </p>
+                                <a href="/images/pic02.jpg" target="_blank">衛教圖1 <i
+                                        class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    適量飲酒，健康長久；貪杯過量，後患無窮！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title "><i class="bi bi-diamond-half"></i>是否抽菸</h4>
+                                <h4 class="value">否</h4>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    讓呼吸更輕鬆，讓未來更美好！
+                                </p>
+                            </div>
+                        </div>
+
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title red"><i class="bi bi-diamond-half"></i>運動量</h4>
+                                <h4 class="value red">2</h4>
+                                <p class="mark red">每週150分鐘，健康輕鬆擁有！</p>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    健康從每一次的運動開始，快樂源自於身體的活力！
+                                    久坐傷身，動起來才青春！
+                                    
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title red"><i class="bi bi-diamond-half"></i>糖尿病狀態</h4>
+                                <h4 class="value red">130</h4>
+                                <p class="mark red">( >126 mg/dL )</p>
+                                <a href="/images/pic05.jpg" target="_blank">衛教圖1 <i
+                                    class="bi bi-box-arrow-in-up-right"></i></a>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    建議立即就醫，按時服藥，及早控制能降低併發症的發生機率。
+                                    <ul>
+                                        <li>控制飲食：避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
+                                        <li>規律運動：適當運動有助於穩定血糖，提高胰島素敏感性。</li>
+                                        <li>定期監測血糖：養成監測血糖的習慣，及早發現異常。</li>
+                                      
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="health-item">
+                            <div class="info">
+                                <h4 class="title"><i class="bi bi-diamond-half"></i>血壓</h4>
+                                <h4 class="value">120</h4>
+                                <p class="mark">血壓正常：< 120/80 mmHg</p>
+                            </div>
+                            <div class="content">
+                                <p class="desc">
+                                    保持良好飲食和運動，擁抱健康血壓！
+                                </p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!--col_2 結束-->
+                  
+                </div>
+                <!--cp_card_1 結束-->
+
+
+            </div>
+
+        </div>
+        <!--wrapper 結束-->
+
+
+        <!--footer 開始-->
+        <div class="footer">
+            <address>© AI數據應用人才養成班_Group 1</address>
+            <address>01 陳邦彥 Byc 03 游雅婷 Emily 07 劉晏瑜 Francis 20 王偉宇 Orot 44 王佳韻 Dorothy 51 陳葳 Wei</address>
+        </div>
+        <!--footer 結束-->
+    </div>
+    <!--wrapper_box 結束-->
+    <!--送資訊部 code-->
+    <script>
+        //全域fn 送資訊部 
+        function fnCallbackSubmit(argJson, argScore, argBase64) {
+            if (argBase64) {
+                let fd = new FormData();
+
+                fd.append("pic", argBase64); //base64圖
+                console.log("要送出去的資料", ...fd);
+            } else {
+                alert("資料不完整");
+            }
+        }
+    </script>
+    <!--送資訊部 code-->
+
+
+</body>
+
+</html>
