@@ -178,8 +178,9 @@ color: #000;
 }
 .health-item .info {
     display: flex;
-    align-items: center; /* 让标题和数值在同一水平线 */
-    justify-content: flex-start;/* 让标题和数值两端对齐 */
+    align-items: center; 
+    justify-content: flex-start;
+    flex-wrap: wrap;
     padding: 10px 0;
     gap: 15px;
     

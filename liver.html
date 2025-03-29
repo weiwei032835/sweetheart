@@ -103,13 +103,17 @@
                                 <option value="12">12 </option>
                                 <option value="13">13 </option>
                                 <option value="14">14 </option>
+                                <option value="15">15 </option>
+                                <option value="16">16 </option>
+                                <option value="17">17 </option>
+                                <option value="18">18 </option>
                             </select>
                             <small class="form-text text-muted"> ※ 一單位=10公克純酒精</small>
                         </div>
 
                         <div class="col-md-3">
-                            <label for="fbs" class="form-label">吸菸狀態 Smoking</label>
-                            <select class="form-select" id="Smoking" required>
+                            <label for="fbs" class="form-label">吸菸狀態 smoking</label>
+                            <select class="form-select" id="smoking" v-model="form.smoking" required>
                                 <option value="" disabled selected>是否有吸菸</option>
                                 <option value="0">不吸菸</option>
                                 <option value="1">吸菸</option>
@@ -128,7 +132,7 @@
 
                         <div class="col-md-3">
                             <label for="PhysicalActivity" class="form-label">運動量 PhysicalActivity</label>
-                            <select class="form-select" id="PhysicalActivity" required>
+                            <select class="form-select" id="PhysicalActivity" v-model="form.PhysicalActivity" required>
                                 <option value="" disabled selected>選擇每周運動量</option>
                                 <option value="0">0 小時</option>
                                 <option value="1">1 小時</option>
@@ -147,8 +151,8 @@
 
 
                         <div class="col-md-3">
-                            <label for="exang" class="form-label">糖尿病狀態 Diabetes</label>
-                            <select class="form-select" id="Diabetes" required>
+                            <label for="Diabetes" class="form-label">糖尿病狀態 Diabetes</label>
+                            <select class="form-select" id="Diabetes" v-model="Diabetes" required>
                                 <option value="" disabled selected>是否有糖尿病</option>
                                 <option value="0">無</option>
                                 <option value="1">有</option>
@@ -158,10 +162,10 @@
 
                         <div class="col-md-3">
                             <label for="Hypertension" class="form-label">高血壓狀態 Hypertension</label>
-                            <select class="form-select" id="Hypertension" required>
+                            <select class="form-select" id="Hypertension" v-model="form.Hypertension" required>
                                 <option value="" disabled selected>是否有高血壓</option>
-                                <option value="0">有</option>
-                                <option value="1">無</option>
+                                <option value="0">無</option>
+                                <option value="1">有</option>
                             </select>
                         </div>
                     </div>
@@ -177,8 +181,8 @@
                 </small>
             </div>
 
-
-            <div class="area area_results" v-show="showReport">
+            <!-- v-show="showReport" -->
+            <div class="area area_results">
 
                 <!--info 開始-->
                 <div class="info">
@@ -194,12 +198,21 @@
                     <!--col_1 開始-->
                     <div class="col_1">
                         <p class="pic">
-                            <img src="./images/01.png">
+                            <img :src="target === 0 ? 'images/00.png' : 'images/01.png'">
                         </p>
-                        <p>肝病評斷: 高風險族群 </p>
-
+                        <p>心臟病評斷: <span v-if="target === 0">低風險族群</span><span v-else>高風險族群</span></p>
                         <div class="content">
-                            <p class="desc"> 肝臟警報！建議定期檢查，注意肝指數，及早發現才不會讓疾病蔓延！ </p>
+                            <p class="desc" v-if="target === 0">
+                                請繼續維持良好生活習慣，定期健康檢查。<br>
+                                身體健康就是您最大的財富!
+                            </p>
+                            <p class="desc" v-else-if="target === 1">
+                                建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。<br>
+                                戒菸與限制每日飲酒量，以利降低心臟相關疾病風險。
+                            </p>
+                            <p class="desc" v-else>
+                                正在載入評斷結果...
+                            </p>
                         </div>
                     </div>
                     <!--col_1 結束-->
@@ -214,7 +227,7 @@
                                 </h4>
                                 <h4 class="value" :class="bmiCategory.style">{{ bmi }}</h4>
                                 <h4 class="value" :class="bmiCategory.style">{{ bmiCategory.category }}</h4>
-                                <a href="/images/pic06.png" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
+                                <a href="images/pic06.jpg" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
                             </div>
                             <div class="content">
                                 <p class="desc">
@@ -223,97 +236,116 @@
                             </div>
                         </div>
 
-                        <div class="health-item">
+                        <div class="health-item" v-if="form.sex && form.AlcoholConsumption">
                             <div class="info">
-                                <h4 class="title red"><i class="bi bi-diamond-half"></i>每周飲酒量</h4>
-                                <h4 class="value red">16</h4>
-                                <p class="mark red">成年男性：每週 < 14單位的純酒精 </p>
-                                        <a href="/images/pic02.jpg" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
+                                <h4 class="title" :class="alcoholStatus.style">
+                                    <i class="bi bi-diamond-half"></i> 每周飲酒量
+                                </h4>
+                                <h4 class="value" :class="alcoholStatus.style">{{ form.AlcoholConsumption }}</h4>
+                                <p class="mark" :class="alcoholStatus.style">
+                                    {{ form.sex === '1' ? '成年男性：每週 < 14 單位的純酒精' : '成年女性：每週 < 7 單位的純酒精' }} </p>
+                                        <a href="/images/pic07.jpg" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
                             </div>
                             <div class="content">
                                 <p class="desc">
-                                    適量飲酒，健康長久；貪杯過量，後患無窮！
+                                    {{ alcoholStatus.message }}
                                 </p>
                             </div>
                         </div>
-                        <div class="health-item">
+                        <div class="health-item" v-if="form.smoking !== ''">
                             <div class="info">
-                                <h4 class="title "><i class="bi bi-diamond-half"></i>是否抽菸</h4>
-                                <h4 class="value">否</h4>
+                                <h4 class="title" :class="smokingStatus.style">
+                                    <i class="bi bi-diamond-half"></i> 是否抽菸
+                                </h4>
+                                <h4 class="value" :class="smokingStatus.style">
+                                    {{ smokingStatus.valueText }}
+                                </h4>
                             </div>
                             <div class="content">
                                 <p class="desc">
-                                    讓呼吸更輕鬆，讓未來更美好！
-                                </p>
-                            </div>
-                        </div>
-
-
-                        <div class="health-item">
-                            <div class="info">
-                                <h4 class="title red"><i class="bi bi-diamond-half"></i>運動量</h4>
-                                <h4 class="value red">2</h4>
-                                <p class="mark red">每週150分鐘，健康輕鬆擁有！</p>
-                            </div>
-                            <div class="content">
-                                <p class="desc">
-                                    健康從每一次的運動開始，快樂源自於身體的活力！
-                                    久坐傷身，動起來才青春！
-
+                                    {{ smokingStatus.message }}
                                 </p>
                             </div>
                         </div>
 
-                        <div class="health-item">
+
+                        <div class="health-item" v-if="form.PhysicalActivity !== ''">
                             <div class="info">
-                                <h4 class="title red"><i class="bi bi-diamond-half"></i>糖尿病狀態</h4>
-                                <h4 class="value red">130</h4>
-                                <p class="mark red">( >126 mg/dL )</p>
-                                <a href="/images/pic05.jpg" target="_blank">衛教圖1 <i class="bi bi-box-arrow-in-up-right"></i></a>
+                                <h4 class="title" :class="activityStatus.style">
+                                    <i class="bi bi-diamond-half"></i> 運動量
+                                </h4>
+                                <h4 class="value" :class="activityStatus.style">
+                                    {{ activityStatus.valueText }}
+                                </h4>
+                                <p class="mark" :class="activityStatus.style">
+                                    每週150分鐘，健康輕鬆擁有！
+                                </p>
                             </div>
                             <div class="content">
                                 <p class="desc">
-                                    建議立即就醫，按時服藥，及早控制能降低併發症的發生機率。
+                                    {{ activityStatus.message }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="health-item" v-if="diabetesStatus">
+                            <div class="info">
+                                <h4 class="title" :class="diabetesStatus.style">
+                                    <i class="bi bi-diamond-half"></i> 糖尿病狀態
+                                </h4>
+                                <h4 class="value" :class="diabetesStatus.style">
+                                    {{ diabetesStatus.label }}
+                                </h4>
+                                <p class="desc">{{ diabetesStatus.message }}</p>
+                            </div>
+                            <div class="content" v-if="diabetesStatus.showWarning">
                                 <ul>
                                     <li>控制飲食：避免高糖、高碳水化合物食物，均衡攝取蛋白質與健康脂肪。</li>
                                     <li>規律運動：適當運動有助於穩定血糖，提高胰島素敏感性。</li>
                                     <li>定期監測血糖：養成監測血糖的習慣，及早發現異常。</li>
                                 </ul>
-                                </p>
                             </div>
                         </div>
 
-                        <div class="health-item">
+                        <div class="health-item" v-if="hypertensionStatus">
                             <div class="info">
-                                <h4 class="title"><i class="bi bi-diamond-half"></i>血壓</h4>
-                                <h4 class="value">120</h4>
-                                <p class="mark">血壓正常：< 120/80 mmHg</p>
+                                <h4 class="title" :class="hypertensionStatus.style">
+                                    <i class="bi bi-diamond-half"></i> 血壓
+                                </h4>
+                                <h4 class="value" :class="hypertensionStatus.style">
+                                    {{ hypertensionStatus.label }}
+                                </h4>
+                                <p class="mark">{{ hypertensionStatus.mark }}</p>
                             </div>
+
                             <div class="content">
-                                <p class="desc">
-                                    保持良好飲食和運動，擁抱健康血壓！
-                                </p>
+                                <p class="desc">{{ hypertensionStatus.message }}</p>
+                                <ul v-if="hypertensionStatus.showWarning">
+                                    <li>遵從醫生建議，定期服用藥物，每天監測血壓。</li>
+                                    <li>改善飲食習慣，避免過多的鹽分、油脂和加工食品。</li>
+                                    <li>增加運動量，減少壓力，保持心情愉快，維持足夠的睡眠。</li>
+                                </ul>
                             </div>
-                            </div>
+                        </div>
                     </div>
                     <!--col_2 結束-->
                 </div>
                 <!--cp_card_1 結束-->
-
             </div>
-        </div>
-        <!-- 客服按鈕 -->
-        <div id="chat-icon">
-            <img src="./images/service.png" alt="">
-        </div>
-        <!-- 聊天室容器 -->
-        <div id="chat-container">
-            <div id="chat-header">
-                <span>線上保健室</span>
-                <button id="close-chat">✖</button>
             </div>
-            <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
-                frameborder="0"></iframe>
+            </div>
+            <!-- 客服按鈕 -->
+            <div id="chat-icon">
+                <img src="./images/service.png" alt="">
+            </div>
+            <!-- 聊天室容器 -->
+            <div id="chat-container">
+                <div id="chat-header">
+                    <span>線上保健室</span>
+                    <button id="close-chat">✖</button>
+                </div>
+                <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+                    frameborder="0"></iframe>
             </div>
             </div>
 
@@ -333,7 +365,7 @@
     <!--wrapper_box 結束-->
 
     <script>
-        const { createApp, ref, computed } = Vue;
+            const { createApp, ref, computed, watch } = Vue;
 
         createApp({
             setup() {
@@ -344,11 +376,23 @@
                     height: '',
                     weight: '',
                     AlcoholConsumption: '',
-                    Smoking: '',
+                    smoking: '',
                     GeneticRisk: '',
                     PhysicalActivity: '',
                     Diabetes: '',
-                    Hypertension: ''
+                    Hypertension: '',// 0: 無, 1: 有
+                    target: '' // 0: 低風險, 1: 高風險
+                });
+
+                const target = ref(null); // 初始状态，等待后端数据
+
+                // 模拟后端回传数据
+                setTimeout(() => {
+                    target.value = 0; // 这里可以替换成后端实际返回的值
+                }, 2000);
+
+                watch(target, (newValue) => {
+                    console.log("後端數據更新:", newValue);
                 });
 
                 const bmi = computed(() => {
@@ -365,6 +409,7 @@
                     console.log('體重:', form.value.weight); // 檢查體重的值
                     console.log('完整表單數據:', form.value); // 檢查整個表單數據
                 };
+                // 計算BMI
                 const bmiCategory = computed(() => {
                     const bmiValue = parseFloat(bmi.value);
                     if (bmiValue < 18.5) {
@@ -377,7 +422,6 @@
                         return {
                             category: '正常',
                             description: '吃得剛剛，動得適量，健康體態最理想！',
-                            style: 'green'
                         };
                     } else if (bmiValue >= 24.0 && bmiValue < 27.0) {
                         return {
@@ -398,6 +442,140 @@
                         style: 'gray'
                     };
                 });
+
+
+                // 計算飲酒狀態
+                const alcoholStatus = computed(() => {
+                    const alcohol = parseInt(form.value.AlcoholConsumption, 10);
+                    const isMale = form.value.sex === '1';
+                    const isFemale = form.value.sex === '0';
+
+                    if (isNaN(alcohol)) {
+                        return {
+                            message: '請選擇飲酒量',
+                        };
+                    }
+
+                    if (isMale) {
+                        if (alcohol > 14) {
+                            return {
+                                message: '貪杯過量，後患無窮！',
+                                style: 'red'
+                            };
+                        }
+                        return {
+                            message: '適量飲酒，微醺剛好！',
+                        };
+                    }
+
+                    if (isFemale) {
+                        if (alcohol > 7) {
+                            return {
+                                message: '貪杯過量，後患無窮！',
+                                style: 'red'
+                            };
+                        }
+                        return {
+                            message: '適量飲酒，微醺剛好！',
+
+                        };
+                    }
+
+                    return {
+                        message: '請選擇性別',
+                        style: 'gray'
+                    };
+                });
+                // 計算吸菸狀態的描述
+                const smokingStatus = computed(() => {
+                    if (form.value.smoking === '') {
+                        return {
+                            message: '請選擇是否吸菸',
+                            valueText: '未選擇',
+                            style: 'gray'
+                        };
+                    }
+                    if (form.value.smoking === '1') {
+                        return {
+                            message: '戒菸一小步，健康一大步！',
+                            valueText: '是',
+                            style: 'red'
+                        };
+                    }
+                    return {
+                        message: '讓呼吸更輕鬆，讓未來更美好！',
+                        valueText: '否',
+                    };
+                });
+
+                // 計算運動狀態的描述
+                const activityStatus = computed(() => {
+                    const hours = Number(form.value.PhysicalActivity);
+                    if (form.value.PhysicalActivity === '') {
+                        return {
+                            message: '請選擇每週運動量',
+                            valueText: '未選擇',
+                        };
+                    }
+                    if (hours < 3) {
+                        return {
+                            message: '久坐傷身，動起來才青春！',
+                            valueText: hours + ' 小時',
+                            style: 'red'
+                        };
+                    }
+                    return {
+                        message: '健康從每一次的運動開始，快樂源自於身體的活力！',
+                        valueText: hours + ' 小時',
+
+                    };
+                });
+
+                // 糖尿病狀態
+                const Diabetes = ref(""); // 0: 無, 1: 有
+                // 糖尿病狀態
+                const diabetesStatus = computed(() => {
+                    if (Diabetes.value === "0") {
+                        return {
+                            label: "無",  // 顯示「無」
+                            message: "請保持健康生活型態，少糖少油多蔬果，穩定血糖不發愁！",
+                            showWarning: false
+                        };
+                    }
+                    if (Diabetes.value === "1") {
+                        return {
+                            label: "有",  // 顯示「有」
+                            message: "建議尋找專業，及早控制能降低併發症的發生機率。",
+                            style: "red",
+                            showWarning: true
+                        };
+                    }
+                    return null; // 尚未選擇
+                });
+
+                // 高血壓狀態
+                const hypertensionStatus = computed(() => {
+                    if (form.value.Hypertension === "0") {
+                        return {
+                            label: "無",
+                            message: "保持良好飲食和運動，擁抱健康血壓！",
+                            mark: "血壓正常：< 120/80 mmHg",
+                            showWarning: false
+                        };
+                    }
+                    if (form.value.Hypertension === "1") {
+                        return {
+                            label: "有",
+                            message: "定期監測血壓，控制飲食，運動護心！ 高血壓不可忽視，及早就醫控制，守護心腦健康！",
+                            mark: "高血壓：130/80 ~ 139/89 mmHg",
+                            style: "red",
+                            showWarning: true
+                        };
+                    }
+                    return null; // 尚未選擇
+                });
+
+
                 const resetForm = () => {
                     form.value = {
                         name: '',
@@ -406,21 +584,29 @@
                         height: '',
                         weight: '',
                         AlcoholConsumption: '',
-                        Smoking: '',
+                        smoking: '',// 0: 不吸菸, 1: 吸菸
                         GeneticRisk: '',
                         PhysicalActivity: '',
                         Diabetes: '',
                         Hypertension: ''
                     };
                     // 隱藏健康報告
-                    showReport.value = false;
+                    // showReport.value = true;
                 };
 
                 return {
                     form,
                     bmi,
                     calculate,
-                    resetForm
+                    resetForm,
+                    bmiCategory,
+                    alcoholStatus,
+                    smokingStatus,
+                    activityStatus,
+                    diabetesStatus,
+                    Diabetes,
+                    hypertensionStatus,
+                    target
                 };
             }
         }).mount('#app');
