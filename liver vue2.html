@@ -48,7 +48,7 @@
 
                 <h4>輸入參數</h4>
                 <!-- 表單 開始 -->
-                <form id="liver" @submit.prevent="calculate">
+                <form novalidate id="liver">
 
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -152,7 +152,7 @@
 
                         <div class="col-md-3">
                             <label for="Diabetes" class="form-label">糖尿病狀態 Diabetes</label>
-                            <select class="form-select" id="Diabetes" v-model="form.Diabetes" required>
+                            <select class="form-select" id="Diabetes" v-model="Diabetes" required>
                                 <option value="" disabled selected>是否有糖尿病</option>
                                 <option value="0">無</option>
                                 <option value="1">有</option>
@@ -170,7 +170,7 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary my-4 me-3">開始計算</button>
+                    <button type="submit" class="btn btn-primary my-4 me-3" @click="calculate">開始計算</button>
                     <button type="button" class="btn btn-secondary my-4 me-3" @click="resetForm">重置</button>
                     <button type="button" class="btn btn-success my-4" id="saveReportButton">儲存報告</button>
                 </form>
@@ -180,8 +180,8 @@
                     僅供簡易測試，精確數值請至醫療院所檢查
                 </small>
             </div>
-
-            <div class="area area_results" v-if="showReport">
+            
+        <div class="area area_results" v-show="showReport">
 
                 <!--info 開始-->
                 <div class="info">
@@ -371,7 +371,7 @@
     <!--wrapper_box 結束-->
 
     <script>
-                                        const { createApp, ref, computed } = Vue;
+            const { createApp, ref, computed, watch } = Vue;
 
         createApp({
             setup() {
@@ -397,6 +397,7 @@
                 setTimeout(() => {
                     target.value = 0;
                 }, 2000);
+
 
 
                 const bmi = computed(() => {
@@ -451,7 +452,7 @@
                 });
 
                 const calculate = () => {
-
+                    console.log('完整表單數據:', form.value);
                     showReport.value = true;
                 };
 
@@ -471,7 +472,7 @@
                         target: ''
                     };
                     target.value = null;
-                    showReport.value = false; // 重置時隱藏結果
+                    showReport.value = false;
                 };
 
                 return {
