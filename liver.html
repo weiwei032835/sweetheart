@@ -181,6 +181,7 @@
                 </small>
             </div>
 
+        
             <div class="area area_results" v-if="showReport">
 
                 <!--info 開始-->
@@ -339,21 +340,21 @@
                 <!--cp_card_1 結束-->
             </div>
         </div>
+    </div>
+    <!-- 客服按鈕 -->
+    <div id="chat-icon">
+        <img src="./images/service.png" alt="">
+    </div>
+    <!-- 聊天室容器 -->
+    <div id="chat-container">
+        <div id="chat-header">
+            <span>線上保健室</span>
+            <button id="close-chat">✖</button>
         </div>
-        <!-- 客服按鈕 -->
-        <div id="chat-icon">
-            <img src="./images/service.png" alt="">
-        </div>
-        <!-- 聊天室容器 -->
-        <div id="chat-container">
-            <div id="chat-header">
-                <span>線上保健室</span>
-                <button id="close-chat">✖</button>
-            </div>
-            <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
-                frameborder="0"></iframe>
-        </div>
-        </div>
+        <iframe id="chat-iframe" src="https://ml-predict-api-406220573568.asia-east1.run.app/widgets/chat/?padding=0"
+            frameborder="0"></iframe>
+    </div>
+    </div>
 
 
     </div>
@@ -371,7 +372,7 @@
     <!--wrapper_box 結束-->
 
     <script>
-                                        const { createApp, ref, computed } = Vue;
+                const { createApp, ref, computed } = Vue;
 
         createApp({
             setup() {
@@ -387,16 +388,16 @@
                     PhysicalActivity: '',
                     Diabetes: '', // 0: 無, 1: 有
                     Hypertension: '', // 0: 無, 1: 有
-                    target: '' // 0: 低風險, 1: 高風險
+                    target: '0' // 0: 低風險, 1: 高風險
                 });
 
-                const target = ref(null);
+                const target = ref(0);
                 const showReport = ref(false);
 
                 // 模拟后端回传数据
-                setTimeout(() => {
-                    target.value = 0;
-                }, 2000);
+                // setTimeout(() => {
+                //     target.value = 0;
+                // }, 2000);
 
 
                 const bmi = computed(() => {
