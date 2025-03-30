@@ -200,19 +200,16 @@
                         <p class="pic">
                             <img :src="target === 0 ? 'images/00.png' : 'images/01.png'">
                         </p>
-                        <p>心臟病評斷: <span v-if="target === 0">低風險族群</span><span v-else>高風險族群</span></p>
+                        <p>肝病評斷: <span v-if="target === 0">低風險族群</span><span v-else>高風險族群</span></p>
                         <div class="content">
                             <p class="desc" v-if="target === 0">
-                                請繼續維持良好生活習慣，定期健康檢查。<br>
-                                身體健康就是您最大的財富!
+                                健康生活，肝臟無憂！保持良好習慣，護肝守護未來！
                             </p>
                             <p class="desc" v-else-if="target === 1">
-                                建議定期監測血壓與膽固醇，維持健康均衡飲食，保持運動習慣，維持充足睡眠。<br>
-                                戒菸與限制每日飲酒量，以利降低心臟相關疾病風險。
+                                肝臟警報！注意肝指數，及早發現才不會讓疾病蔓延！
                             </p>
                             <p class="desc" v-else>
-                                請繼續維持良好生活習慣，定期健康檢查。<br>
-                                身體健康就是您最大的財富!
+                                健康生活，肝臟無憂！保持良好習慣，護肝守護未來！
                             </p>
                         </div>
                     </div>
