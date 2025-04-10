@@ -407,7 +407,7 @@
                 const bmiCategory = computed(() => {
                     const bmiValue = parseFloat(bmi.value);
                     if (bmiValue < 18.5) return { category: '過輕', description: '補充營養不挑食，健康增重更有勁！', style: 'red' };
-                    if (bmiValue < 24.0) return { category: '正常', description: '吃得剛剛，動得適量，健康體態最理想！' };
+                    if (bmiValue < 24.0) return { category: '正常', description: '吃的剛剛好，動得適量，健康體態最理想！' };
                     if (bmiValue < 27.0) return { category: '過重', description: '少油少糖多運動，健康體態動起來！', style: 'orange' };
                     return { category: '肥胖', description: '飲食控制搭配運動，健康生活就從今天開始！', style: 'red' };
                 });
@@ -439,7 +439,7 @@
 
                 const diabetesStatus = computed(() => {
                     if (form.value.Diabetes === "0") return { label: "無", message: "保持健康生活型態，少糖少油多蔬果，穩定血糖不發愁！" };
-                    if (form.value.Diabetes === "1") return { label: "有", message: "建議尋找專業，及早控制能降低併發症的發生機率。", style: "red" };
+                    if (form.value.Diabetes === "1") return { label: "有", message: "建議進一步追蹤，及早控制能降低併發症的發生機率。", style: "red" };
                     return { message: "請選擇糖尿病狀態" };
                 });
 
